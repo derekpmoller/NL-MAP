@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Newfoundland and Labrador Map</title>
+    <title>Newfoundland & Labrador Explorer</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     
 
@@ -65,7 +65,21 @@
         L.marker([48.55, -56.15]).addTo(map).bindPopup('<b>Grand Falls-Windsor</b><br>Central Newfoundland');
         L.marker([53.30, -60.33]).addTo(map).bindPopup('<b>Happy Valley-Goose Bay</b><br>Labrador');
         L.marker([52.95, -66.92]).addTo(map).bindPopup('<b>Labrador City</b><br>Western Labrador');
+        
+        var avalon = L.polygon([
+            [47.8, -53.8],
+            [47.3, -52.8],
+            [46.8, -52.6],
+            [46.8, -54.2]
+        ], {
+            color: '#ffcc00',
+            fillColor: '#ffcc00',
+            fillOpacity: 0.3,
+            weight: 2
+        }).addTo(map);
 
+        avalon.bindPopup('<b>Avalon Peninsula</b>');
+        
     </script>
 
 </body>
