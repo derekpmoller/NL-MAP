@@ -66,19 +66,25 @@
         L.marker([53.30, -60.33]).addTo(map).bindPopup('<b>Happy Valley-Goose Bay</b><br>Labrador');
         L.marker([52.95, -66.92]).addTo(map).bindPopup('<b>Labrador City</b><br>Western Labrador');
         
-        var avalon = L.polygon([
-            [47.8, -53.8],
-            [47.3, -52.8],
-            [46.8, -52.6],
-            [46.8, -54.2]
-        ], {
-            color: '#ffcc00',
-            fillColor: '#ffcc00',
-            fillOpacity: 0.3,
-            weight: 2
-        }).addTo(map);
+        fetch('NL-Avalon_AUG_26_2026.geojson')
+           .then(response => response.json())
+           .then(data => {
 
-        avalon.bindPopup('<b>Avalon Peninsula</b>');
+             L.geoJSON(data, {
+               style: {
+                color: '#F4D03F',
+                fillColor: '#F4D03F',
+                fillOpacity: 0.3,
+                weight: 2
+              },
+
+              onEachFeature: function(feature, layer) {
+                layer.bindPopup('<b>Avalon Peninsula</b>');
+           }
+
+           }).addTo(map);
+
+    });
         
     </script>
 
