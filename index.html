@@ -1,36 +1,37 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Newfoundland & Labrador Explorer</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    
+
 
     <style>
-      #map {
-        height: 100vh;
-        width: 100%;
-      }
+        #map {
+            height: 100vh;
+            width: 100%;
+        }
 
-      body {
-        margin: 0;
-      }
+        body {
+            margin: 0;
+        }
 
-      #title {
-        position: absolute;
-        top: 10px;
-        left: 80px;
-        z-index: 1000;
-        background: white;
-        padding: 8px 15px;
-        border-radius: 5px;
-        font-family: Arial, sans-serif;
-        font-size: 20px;
-        font-weight: bold;
-        margin: 0;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        background: rgba(255,255,255,0.95);
-      }
-</style>
+        #title {
+            position: absolute;
+            top: 10px;
+            left: 80px;
+            z-index: 1000;
+            background: white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-family: Arial, sans-serif;
+            font-size: 20px;
+            font-weight: bold;
+            margin: 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            background: rgba(255, 255, 255, 0.95);
+        }
+    </style>
 </head>
 
 <body>
@@ -39,7 +40,7 @@
 
     <div id="map"></div>
 
-   
+
 
 
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
@@ -48,45 +49,62 @@
         var map = L.map('map').setView([52.8, -58.5], 6);
 
         L.tileLayer(
-            'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
+            'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
             {
-                attribution: '&copy; OpenStreetMap contributors & CARTO',
-                subdomains: 'abcd',
-                maxZoom: 20
+                attribution: '&copy; OpenStreetMap contributors',
+                maxZoom: 19
             }
         ).addTo(map);
 
         L.marker([47.5615, -52.7126])
-        .addTo(map)
-        .bindPopup('<b>St. John\'s</b><br>Capital of Newfoundland and Labrador');
+            .addTo(map)
+            .bindPopup('<b>St. John\'s</b><br>Capital of Newfoundland and Labrador');
 
         L.marker([48.95, -57.95]).addTo(map).bindPopup('<b>Corner Brook</b><br>West Coast');
         L.marker([48.95, -54.61]).addTo(map).bindPopup('<b>Gander</b><br>Central Newfoundland');
         L.marker([48.55, -56.15]).addTo(map).bindPopup('<b>Grand Falls-Windsor</b><br>Central Newfoundland');
         L.marker([53.30, -60.33]).addTo(map).bindPopup('<b>Happy Valley-Goose Bay</b><br>Labrador');
         L.marker([52.95, -66.92]).addTo(map).bindPopup('<b>Labrador City</b><br>Western Labrador');
-        
+
         fetch('NL-Avalon_AUG_26_2026.geojson')
-           .then(response => response.json())
-           .then(data => {
+            .then(response => response.json())
+            .then(data => {
 
-             L.geoJSON(data, {
-               style: {
-                color: '#F4D03F',
-                fillColor: '#F4D03F',
-                fillOpacity: 0.3,
-                weight: 2
-              },
+                var regionsLayer = L.geoJSON(data, {
+                    style: {
+                        color: '#F4D03F',
+                        fillColor: '#F4D03F',
+                        fillOpacity: 0.3,
+                        weight: 2
+                    },
 
-              onEachFeature: function(feature, layer) {
-                layer.bindPopup('<b>Avalon Peninsula</b>');
-           }
+                    onEachFeature: function (feature, layer) {
+                        layer.bindPopup('<b>Avalon Peninsula</b>');
+                    }
 
-           }).addTo(map);
+                }).addTo(map);
 
-    });
-        
+                function updateRegionStyle() {
+
+                    var zoom = map.getZoom();
+
+                    regionsLayer.setStyle({
+                        color: '#F4D03F',
+                        fillColor: '#F4D03F',
+                        weight: 2,
+                        fillOpacity: zoom < 10 ? 0.3 : 0
+                    });
+
+                }
+
+                map.on('zoomend', updateRegionStyle);
+                updateRegionStyle();
+
+
+            });
+
     </script>
 
 </body>
+
 </html>
