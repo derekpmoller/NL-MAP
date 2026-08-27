@@ -66,7 +66,7 @@
         L.marker([53.30, -60.33]).addTo(map).bindPopup('<b>Happy Valley-Goose Bay</b><br>Labrador');
         L.marker([52.95, -66.92]).addTo(map).bindPopup('<b>Labrador City</b><br>Western Labrador');
 
-        fetch('NL-Avalon_AUG_26_2026.geojson')
+        fetch('data/NL-Avalon_AUG_26_2026.geojson')
             .then(response => response.json())
             .then(data => {
 
@@ -100,6 +100,45 @@
                 map.on('zoomend', updateRegionStyle);
                 updateRegionStyle();
 
+
+            });
+
+        fetch('data/NL-Burin_AUG_27_2026_2.geojson')
+            .then(response => response.json())
+            .then(data => {
+
+                var burinLayer = L.geoJSON(data, {
+
+                    style: {
+                        color: '#E67E73',
+                        fillColor: '#E67E73',
+                        fillOpacity: 0.3,
+                        weight: 2
+                    },
+
+                    onEachFeature: function (feature, layer) {
+                        layer.bindPopup('<b>Burin Peninsula</b>');
+                    }
+
+                }).addTo(map);
+
+                function updateBurinStyle() {
+
+                    var zoom = map.getZoom();
+
+                    burinLayer.setStyle({
+                        color: '#E67E73',
+                        fillColor: '#E67E73',
+                        weight: 2,
+                        fillOpacity: zoom < 10 ? 0.3 : 0
+                    });
+
+                }
+
+                map.on('zoomend', updateBurinStyle);
+                updateBurinStyle();
+
+            
 
             });
 
