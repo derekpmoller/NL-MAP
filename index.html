@@ -66,81 +66,60 @@
         L.marker([53.30, -60.33]).addTo(map).bindPopup('<b>Happy Valley-Goose Bay</b><br>Labrador');
         L.marker([52.95, -66.92]).addTo(map).bindPopup('<b>Labrador City</b><br>Western Labrador');
 
-        fetch('data/NL-Avalon_AUG_26_2026.geojson')
-            .then(response => response.json())
-            .then(data => {
+        function loadRegion(file, regionName, colour) {
 
-                var regionsLayer = L.geoJSON(data, {
-                    style: {
-                        color: '#F4D03F',
-                        fillColor: '#F4D03F',
-                        fillOpacity: 0.3,
-                        weight: 2
-                    },
+            fetch(file)
+                .then(response => response.json())
+                .then(data => {
 
-                    onEachFeature: function (feature, layer) {
-                        layer.bindPopup('<b>Avalon Peninsula</b>');
+                    var regionLayer = L.geoJSON(data, {
+
+                        style: {
+                            color: colour,
+                            fillColor: colour,
+                            fillOpacity: 0.3,
+                            weight: 2
+                        },
+
+                        onEachFeature: function (feature, layer) {
+                            layer.bindPopup('<b>' + regionName + '</b>');
+                        }
+
+                    }).addTo(map);
+
+                    function updateStyle() {
+
+                        var zoom = map.getZoom();
+
+                        regionLayer.setStyle({
+                            color: colour,
+                            fillColor: colour,
+                            weight: 2,
+                            fillOpacity: zoom < 10 ? 0.3 : 0
+                        });
+
                     }
 
-                }).addTo(map);
+                    map.on('zoomend', updateStyle);
+                    updateStyle();
 
-                function updateRegionStyle() {
+                });
 
-                    var zoom = map.getZoom();
-
-                    regionsLayer.setStyle({
-                        color: '#F4D03F',
-                        fillColor: '#F4D03F',
-                        weight: 2,
-                        fillOpacity: zoom < 10 ? 0.3 : 0
-                    });
-
-                }
-
-                map.on('zoomend', updateRegionStyle);
-                updateRegionStyle();
+        }
 
 
-            });
 
-        fetch('data/NL-Burin_AUG_27_2026_2.geojson')
-            .then(response => response.json())
-            .then(data => {
+        loadRegion(
+            'Data/NL-Avalon_AUG_26_2026.geojson',
+            'Avalon Peninsula',
+            '#F4D03F'
+        );
 
-                var burinLayer = L.geoJSON(data, {
-
-                    style: {
-                        color: '#E67E73',
-                        fillColor: '#E67E73',
-                        fillOpacity: 0.3,
-                        weight: 2
-                    },
-
-                    onEachFeature: function (feature, layer) {
-                        layer.bindPopup('<b>Burin Peninsula</b>');
-                    }
-
-                }).addTo(map);
-
-                function updateBurinStyle() {
-
-                    var zoom = map.getZoom();
-
-                    burinLayer.setStyle({
-                        color: '#E67E73',
-                        fillColor: '#E67E73',
-                        weight: 2,
-                        fillOpacity: zoom < 10 ? 0.3 : 0
-                    });
-
-                }
-
-                map.on('zoomend', updateBurinStyle);
-                updateBurinStyle();
-
-            
-
-            });
+        loadRegion(
+            'Data/NL-Burin_AUG_27_2026_2.geojson',
+            'Burin Peninsula',
+            '#E67E73'
+        );
 
     </script>
 
