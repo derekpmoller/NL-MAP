@@ -116,11 +116,19 @@
                                 layer.openPopup();
 
                                 document.getElementById('info-panel').innerHTML = `
-        <h2>${region.name}</h2>
-        <p><strong>Code:</strong> ${region.code}</p>
-        <p><strong>Author:</strong> ${region.author}</p>
-        <p><strong>Created:</strong> ${region.created}</p>
-    `;
+                                <h2>${region.name}</h2>
+
+                                
+                                <hr>
+
+                                <p>${region.description || ''}</p>
+
+                                <p><strong>Major Communities</strong><br>
+                                ${region.majorCommunities || ''}</p>
+
+                                <p><strong>Key Attractions</strong><br>
+                                ${region.attractions || ''}</p>
+                        `;
 
                             });
 
@@ -225,9 +233,9 @@
                 file: 'Data/NL-Labrador_AUG_28_2026.geojson',
                 name: 'Labrador',
                 colour: '#D4A017',
-                code: 'NL-Labrador',
-                author: 'Derek Moller',
-                created: '2026-08-28'
+                description: 'A vast and rugged land of mountains, tundra, Indigenous cultures, historic fishing settlements, and some of Canada\'s most remote wilderness.',
+                majorCommunities: 'Happy Valley-Goose Bay, Labrador City, Wabush, Nain, Cartwright, Red Bay',
+                attractions: 'Torngat Mountains National Park, Red Bay UNESCO World Heritage Site, Churchill Falls, Battle Harbour, Point Amour Lighthouse, Mealy Mountains National Park Reserve, The Wonderstrands'
             }
 
         ];
