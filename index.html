@@ -46,7 +46,7 @@
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
     <script>
-        var map = L.map('map').setView([52.8, -58.5], 6);
+        const map = L.map('map').setView([52.8, -58.5], 6);
 
         L.tileLayer(
             'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -72,7 +72,7 @@
                 .then(response => response.json())
                 .then(data => {
 
-                    var regionLayer = L.geoJSON(data, {
+                    const regionLayer = L.geoJSON(data, {
 
                         style: {
                             color: colour,
@@ -89,7 +89,7 @@
 
                     function updateStyle() {
 
-                        var zoom = map.getZoom();
+                        const zoom = map.getZoom();
 
                         regionLayer.setStyle({
                             color: colour,
@@ -109,17 +109,26 @@
 
 
 
-        loadRegion(
-            'Data/NL-Avalon_AUG_26_2026.geojson',
-            'Avalon Peninsula',
-            '#F4D03F'
-        );
+        const regions = [
+            {
+                file: 'Data/NL-Avalon_AUG_26_2026.geojson',
+                name: 'Avalon Peninsula',
+                colour: '#F4D03F'
+            },
+            {
+                file: 'Data/NL-Burin_AUG_27_2026_2.geojson',
+                name: 'Burin Peninsula',
+                colour: '#E67E73'
+            }
+        ];
 
-        loadRegion(
-            'Data/NL-Burin_AUG_27_2026_2.geojson',
-            'Burin Peninsula',
-            '#E67E73'
-        );
+        regions.forEach(region => {
+            loadRegion(
+                region.file,
+                region.name,
+                region.colour
+            );
+        });
 
     </script>
 
