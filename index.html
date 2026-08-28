@@ -82,10 +82,26 @@
                         },
 
                         onEachFeature: function (feature, layer) {
+
                             layer.bindPopup('<b>' + regionName + '</b>');
+
                             layer.on('click', function () {
                                 map.fitBounds(layer.getBounds());
                                 layer.openPopup();
+                            });
+
+                            layer.on('mouseover', function () {
+                                this.setStyle({
+                                    weight: 4,
+                                    fillOpacity: 0.5
+                                });
+                            });
+
+                            layer.on('mouseout', function () {
+                                this.setStyle({
+                                    weight: 2,
+                                    fillOpacity: map.getZoom() < 10 ? 0.3 : 0
+                                });
                             });
 
                         }
