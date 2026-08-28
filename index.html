@@ -31,12 +31,37 @@
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
             background: rgba(255, 255, 255, 0.95);
         }
+
+        #info-panel {
+            position: absolute;
+            top: 70px;
+            right: 10px;
+            width: 300px;
+            z-index: 1000;
+
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px;
+            border-radius: 5px;
+
+            font-family: Arial, sans-serif;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        #info-panel h2 {
+            margin-top: 0;
+        }
     </style>
 </head>
 
 <body>
 
     <h1 id="title">Newfoundland and Labrador Explorer</h1>
+
+    <div id="info-panel">
+        <h2>Tourism Region</h2>
+        <p>Click a region to view information.</p>
+    </div>
+
 
     <div id="map"></div>
 
@@ -66,28 +91,37 @@
         L.marker([53.30, -60.33]).addTo(map).bindPopup('<b>Happy Valley-Goose Bay</b><br>Labrador');
         L.marker([52.95, -66.92]).addTo(map).bindPopup('<b>Labrador City</b><br>Western Labrador');
 
-        function loadRegion(file, regionName, colour) {
+        function loadRegion(region) {
 
-            fetch(file)
+            fetch(region.file)
                 .then(response => response.json())
                 .then(data => {
 
                     const regionLayer = L.geoJSON(data, {
 
                         style: {
-                            color: colour,
-                            fillColor: colour,
+                            color: region.colour,
+                            fillColor: region.colour,
                             fillOpacity: 0.3,
                             weight: 2
                         },
 
                         onEachFeature: function (feature, layer) {
 
-                            layer.bindPopup('<b>' + regionName + '</b>');
+                            layer.bindPopup('<b>' + region.name + '</b>');
 
                             layer.on('click', function () {
+
                                 map.fitBounds(layer.getBounds());
                                 layer.openPopup();
+
+                                document.getElementById('info-panel').innerHTML = `
+        <h2>${region.name}</h2>
+        <p><strong>Code:</strong> ${region.code}</p>
+        <p><strong>Author:</strong> ${region.author}</p>
+        <p><strong>Created:</strong> ${region.created}</p>
+    `;
+
                             });
 
                             layer.on('mouseover', function () {
@@ -113,8 +147,8 @@
                         const zoom = map.getZoom();
 
                         regionLayer.setStyle({
-                            color: colour,
-                            fillColor: colour,
+                            color: region.colour,
+                            fillColor: region.colour,
                             weight: 2,
                             fillOpacity: zoom < 10 ? 0.3 : 0
                         });
@@ -199,11 +233,9 @@
         ];
 
         regions.forEach(region => {
-            loadRegion(
-                region.file,
-                region.name,
-                region.colour
-            );
+            loadRegion(region)
+
+
         });
 
     </script>
