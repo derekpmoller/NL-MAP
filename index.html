@@ -128,8 +128,11 @@
 
                                 <p><strong>Key Attractions</strong><br>
                                 ${region.attractions || ''}</p>
-                        `;
 
+                               <p><strong>Hidden Gems</strong><br>
+                                ${region.hiddenGems || ''}</p>
+                        
+                            `;
                             });
 
                             layer.on('mouseover', function () {
@@ -188,7 +191,8 @@
                 colour: '#D4A017',
                 description: 'A vast and rugged land of mountains, tundra, Indigenous cultures, historic fishing settlements, and some of Canada\'s most remote wilderness.',
                 majorCommunities: 'Happy Valley-Goose Bay, Labrador City, Wabush, Nain, Cartwright, Red Bay',
-                attractions: 'Torngat Mountains National Park, Red Bay UNESCO World Heritage Site, Churchill Falls, Battle Harbour, Point Amour Lighthouse, Mealy Mountains National Park Reserve, The Wonderstrands'
+                attractions: 'Torngat Mountains National Park, Red Bay UNESCO World Heritage Site, Churchill Falls',
+                hiddenGems: 'Battle Harbour, Point Amour Lighthouse, The Wonderstrands, Tracey Hill Trail, North Coast Inuit Communities'
             },
             {
                 file: 'Data/NL-Northern_Peninsula_AUG_28_2026.geojson',
@@ -196,7 +200,8 @@
                 colour: '#27AE60',
                 description: 'A rugged peninsula renowned for Viking history, dramatic coastal scenery, whales, icebergs, national parks, and some of Newfoundland and Labrador\'s most iconic travel experiences.',
                 majorCommunities: 'St. Anthony, Norris Point, Rocky Harbour, Port au Choix, Cow Head, Roddickton-Bide Arm',
-                attractions: 'L\'Anse aux Meadows UNESCO World Heritage Site, Gros Morne National Park, Western Brook Pond, Port au Choix National Historic Site, Arches Provincial Park, St. Anthony Whale Watching'
+                attractions: 'L\'An1se aux Meadows UNESCO World Heritage Site, Gros Morne National Park, Western Brook Pond, Port au Choix National Historic Site, Arches Provincial Park, St. Anthony Whale Watching',
+
             },
             {
                 file: 'Data/NL-South_West_Coast_AUG_28_2026.geojson',
