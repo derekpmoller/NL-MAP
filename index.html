@@ -50,6 +50,19 @@
         #info-panel h2 {
             margin-top: 0;
         }
+
+        #search-box {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 1000;
+
+            background: rgba(255, 255, 255, 0.95);
+            padding: 10px;
+            border-radius: 5px;
+
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
     </style>
 </head>
 
@@ -62,6 +75,10 @@
         <p>Click a region to view information.</p>
     </div>
 
+    <div id="search-box">
+        <input type="text" id="communitySearch" placeholder="Search community...">
+        <button onclick="findCommunity()">Search</button>
+    </div>
 
     <div id="map"></div>
 
@@ -173,7 +190,32 @@
 
         }
 
-
+        const communities = [
+            {
+                name: 'Happy Valley-Goose Bay',
+                region: 'Labrador'
+            },
+            {
+                name: 'Labrador City',
+                region: 'Labrador'
+            },
+            {
+                name: 'Wabush',
+                region: 'Labrador'
+            },
+            {
+                name: 'Nain',
+                region: 'Labrador'
+            },
+            {
+                name: 'Cartwright',
+                region: 'Labrador'
+            },
+            {
+                name: 'Red Bay',
+                region: 'Labrador'
+            }
+        ];
 
         const regions = [
             {
@@ -201,7 +243,7 @@
                 colour: '#27AE60',
                 description: 'A rugged peninsula renowned for Viking history, dramatic coastal scenery, whales, icebergs, national parks, and some of Newfoundland and Labrador\'s most iconic travel experiences.',
                 majorCommunities: 'St. Anthony, Norris Point, Rocky Harbour, Port au Choix, Cow Head, Roddickton-Bide Arm',
-                attractions: 'L\'An1se aux Meadows UNESCO World Heritage Site, Gros Morne National Park, Western Brook Pond, Port au Choix National Historic Site, Arches Provincial Park, St. Anthony Whale Watching',
+                attractions: 'L\'Anse aux Meadows UNESCO World Heritage Site, Gros Morne National Park, Western Brook Pond, Port au Choix National Historic Site, Arches Provincial Park, St. Anthony Whale Watching',
                 hiddenGems: 'Burnt Cape Ecological Reserve, Green Point Geological Site, Fishing Point Lighthouse, Conche French Shore Interpretation Centre, Dark Tickle Company, Anchor Point Lighthouse'
             },
             {
@@ -251,6 +293,39 @@
             }
 
         ];
+
+        function findCommunity() {
+
+            const searchValue =
+                document.getElementById('communitySearch')
+                    .value
+                    .trim()
+                    .toLowerCase();
+
+            const community = communities.find(c =>
+                c.name.toLowerCase() === searchValue
+            );
+
+            if (!community) {
+
+                alert('Community not found.');
+
+                return;
+
+            }
+
+            document.getElementById('info-panel').innerHTML = `
+        <h2>${community.name}</h2>
+
+        <hr>
+
+        <p>
+            <strong>Region:</strong><br>
+            ${community.region}
+        </p>
+    `;
+
+        }
 
         regions.forEach(region => {
             loadRegion(region)
