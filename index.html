@@ -90,6 +90,8 @@
     <script>
         const map = L.map('map').setView([52.8, -58.5], 6);
 
+        let searchMarker;
+
         L.tileLayer(
             'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
             {
@@ -193,28 +195,42 @@
         const communities = [
             {
                 name: 'Happy Valley-Goose Bay',
-                region: 'Labrador'
+                region: 'Labrador',
+                lat: 53.30,
+                lon: -60.33
             },
+
             {
                 name: 'Labrador City',
-                region: 'Labrador'
+                region: 'Labrador',
+                lat: 52.95,
+                lon: -66.92
             },
             {
                 name: 'Wabush',
-                region: 'Labrador'
+                region: 'Labrador',
+                lat: 52.92,
+                lon: -66.87
             },
             {
                 name: 'Nain',
-                region: 'Labrador'
+                region: 'Labrador',
+                lat: 56.54,
+                lon: -61.69
             },
             {
                 name: 'Cartwright',
-                region: 'Labrador'
+                region: 'Labrador',
+                lat: 53.71,
+                lon: -57.03
             },
             {
                 name: 'Red Bay',
-                region: 'Labrador'
+                region: 'Labrador',
+                lat: 51.73,
+                lon: -56.43
             }
+
         ];
 
         const regions = [
@@ -302,8 +318,9 @@
                     .trim()
                     .toLowerCase();
 
+
             const community = communities.find(c =>
-                c.name.toLowerCase() === searchValue
+                c.name.toLowerCase().includes(searchValue)
             );
 
             if (!community) {
@@ -313,16 +330,47 @@
                 return;
 
             }
+            map.setView(
+                [community.lat, community.lon],
+                10
+            );
+
+            if (searchMarker) {
+                map.removeLayer(searchMarker);
+            }
+
+            searchMarker = L.marker([
+                community.lat,
+                community.lon
+            ]).addTo(map);
+
+            searchMarker.bindPopup(
+                `<b>${community.name}</b>`
+            ).openPopup();
+
+            const region = regions.find(r =>
+                r.name === community.region
+            );
+            if (!region) {
+                alert('Region not found.');
+                return;
+            }
 
             document.getElementById('info-panel').innerHTML = `
-        <h2>${community.name}</h2>
+    <h2>${region.name}</h2>
 
-        <hr>
+    <hr>
 
-        <p>
-            <strong>Region:</strong><br>
-            ${community.region}
-        </p>
+    <p>${region.description || ''}</p>
+
+    <p><strong>Major Communities</strong><br>
+    ${region.majorCommunities || ''}</p>
+
+    <p><strong>Key Attractions</strong><br>
+    ${region.attractions || ''}</p>
+
+    <p><strong>Hidden Gems</strong><br>
+    ${region.hiddenGems || ''}</p>
     `;
 
         }
