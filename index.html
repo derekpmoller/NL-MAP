@@ -1497,11 +1497,33 @@
 
             }
 
-            const zoomLevel = 4
-            map.setView(
-                [result.lat, result.lon],
-                zoomLevel
-            );
+            const zoomLevel = 10
+            if (window.innerWidth < 768) {
+
+                const point = map.project(
+                    [result.lat, result.lon],
+                    zoomLevel
+                );
+
+                point.y -= 150;
+
+                const adjustedLatLng =
+                    map.unproject(point, zoomLevel);
+
+                map.setView(
+                    adjustedLatLng,
+                    zoomLevel
+                );
+
+            }
+            else {
+
+                map.setView(
+                    [result.lat, result.lon],
+                    zoomLevel
+                );
+
+            }
 
             if (searchMarker) {
                 map.removeLayer(searchMarker);
