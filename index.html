@@ -1496,6 +1496,10 @@
                 return;
 
             }
+
+            const zoomLevel =
+                window.innerWidth < 768 ? 8 : 10;
+
             map.setView(
                 [result.lat, result.lon],
                 10
