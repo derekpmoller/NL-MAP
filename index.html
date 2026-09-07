@@ -1499,14 +1499,14 @@
 
             const zoomLevel = 10
             if (window.innerWidth < 768) {
-                alert('Mobile centering code running +1000');
+                alert('Mobile centering code running +700');
 
                 const point = map.project(
                     [result.lat, result.lon],
                     zoomLevel
                 );
 
-                point.y += 1000;
+                point.y += 700;
 
                 const adjustedLatLng =
                     map.unproject(point, zoomLevel);
