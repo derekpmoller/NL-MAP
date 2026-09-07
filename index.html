@@ -2,7 +2,11 @@
 <html>
 
 <head>
-    <title>Newfoundland & Labrador Explorer</title>
+    <meta charset="UTF-8">
+<!-- Required for mobile screen sizing and media queries -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Newfoundland &amp; Labrador Explorer</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 
 
@@ -15,6 +19,8 @@
         body {
             margin: 0;
         }
+
+        /* Shared title appearance */
 
         #mobile-title,
         #desktop-title {
@@ -100,11 +106,21 @@
             overflow-y: auto;
         }
 
+        /* Desktop title is visible by default */
+
+        #desktop-title {
+            display: block;
+        }
+
+        /* Mobile title is hidden by default */
+
         #mobile-title {
             display: none;
         }
 
-        @media (max-width: 2000px) {
+        /* Mobile layout */
+
+        @media (max-width: 768px) {
             #desktop-title {
                 display: none;
             }
