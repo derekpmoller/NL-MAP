@@ -16,12 +16,13 @@
             margin: 0;
         }
 
-        #title {
+        #mobile-title,
+        #desktop-title {
             position: absolute;
             top: 10px;
             left: 80px;
             z-index: 1000;
-            background: white;
+            background: rgba(255, 255, 255, 0.95);
             padding: 8px 15px;
             border-radius: 5px;
             font-family: Arial, sans-serif;
@@ -29,7 +30,6 @@
             font-weight: bold;
             margin: 0;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-            background: rgba(255, 255, 255, 0.95);
         }
 
         #info-panel {
@@ -99,12 +99,32 @@
             max-height: calc(100vh - 140px);
             overflow-y: auto;
         }
+
+        #mobile-title {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            #desktop-title {
+                display: none;
+            }
+
+            #mobile-title {
+                display: block;
+                font-size: 16px;
+                left: 50px;
+                padding: 6px 10px;
+            }
+        }
     </style>
 </head>
 
 <body>
 
-    <h1 id="title">Newfoundland and Labrador Explorer</h1>
+
+    <h1 id="desktop-title">Newfoundland and Labrador Explorer</h1>
+    <h1 id="mobile-title">NL Explorer</h1>
+
 
     <div id="info-panel">
         <h2>Tourism Region</h2>
@@ -1499,7 +1519,7 @@
 
             const zoomLevel = 10
             if (window.innerWidth < 768) {
-                
+
                 const point = map.project(
                     [result.lat, result.lon],
                     zoomLevel
