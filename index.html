@@ -3,6 +3,9 @@
 
 <head>
     <title>Newfoundland & Labrador Explorer</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 
 
@@ -99,6 +102,46 @@
             max-height: calc(100vh - 140px);
             overflow-y: auto;
         }
+
+        #info-toggle {
+            display: none;
+        }
+
+        @media (max-width: 767px) {
+            #info-toggle {
+                display: block;
+                position: absolute;
+                right: 10px;
+                bottom: 35px;
+                z-index: 1001;
+                padding: 10px 16px;
+                border: none;
+                border-radius: 5px;
+                background: #ffffff;
+                color: #222222;
+                font-family: Arial, sans-serif;
+                font-size: 16px;
+                font-weight: bold;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+                cursor: pointer;
+            }
+
+            #info-panel {
+                display: none;
+                top: auto;
+                right: 10px;
+                bottom: 85px;
+                left: 10px;
+                width: auto;
+                max-height: 55vh;
+                overflow-y: auto;
+                padding: 15px;
+            }
+
+            #info-panel.mobile-open {
+                display: block;
+            }
+        }
     </style>
 </head>
 
@@ -110,6 +153,10 @@
         <h2>Tourism Region</h2>
         <p>Click a region to view information.</p>
     </div>
+
+    <button id="info-toggle" type="button" onclick="toggleInfoPanel()">
+        Info
+    </button>
 
     <div id="search-box">
 
@@ -138,6 +185,43 @@
 
         let searchMarker;
 
+        function isMobileView() {
+            return window.innerWidth < 768;
+        }
+
+        function openInfoPanel() {
+            
+            if (isMobileView()) {
+                document
+                    .getElementById('info-panel')
+                    .classList.add('mobile-open');
+
+                document.getElementById('info-toggle').textContent = 'Close';
+            }
+        }
+
+        function closeInfoPanel() {
+            if (isMobileView()) {
+                document
+                    .getElementById('info-panel')
+                    .classList.remove('mobile-open');
+
+                document.getElementById('info-toggle').textContent = 'Info';
+            }
+        }
+
+        function toggleInfoPanel() {
+            const panel = document.getElementById('info-panel');
+
+            if (panel.classList.contains('mobile-open')) {
+                closeInfoPanel();
+            } else {
+                openInfoPanel();
+            }
+        }
+
+
+
         const attractionIcon = new L.Icon({
             iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
             shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
@@ -165,6 +249,10 @@
                 maxZoom: 19
             }
         ).addTo(map);
+
+        map.attributionControl.addAttribution(
+            '© 2026 W3 Digital Development | NL Explorer'
+        );
 
         L.marker([47.5615, -52.7126])
             .addTo(map)
@@ -218,6 +306,7 @@
                                 ${region.hiddenGems || ''}</p>
                         
                             `;
+                                openInfoPanel();
                             });
 
                             layer.on('mouseover', function () {
@@ -1467,6 +1556,8 @@
 
         function findCommunity() {
 
+            closeInfoPanel();
+
             const searchValue =
                 document.getElementById('communitySearch')
                     .value
@@ -1499,7 +1590,7 @@
 
             const zoomLevel = 10
             if (window.innerWidth < 768) {
-                
+
                 const point = map.project(
                     [result.lat, result.lon],
                     zoomLevel
@@ -1661,6 +1752,7 @@
         });
 
     </script>
+
 
 </body>
 
