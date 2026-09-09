@@ -265,7 +265,7 @@
         }
 
         function showAttractionDetails(name) {
-            
+
             const attraction =
                 attractionDetails.find(
                     a => a.name === name
@@ -324,10 +324,75 @@
         `
                     : ''}
 
+                    
+
     `;
 
             openInfoPanel();
 
+        }
+
+        function showHiddenGemDetails(name) {
+
+            const hiddenGem =
+                hiddenGemDetails.find(
+                    h => h.name === name
+                );
+
+            if (!hiddenGem) return;
+
+            document.getElementById('info-panel').innerHTML = `
+
+        <h2>${hiddenGem.name}</h2>
+
+        <p>
+            <strong>Category:</strong>
+            ${hiddenGem.category}
+        </p>
+
+        <p>
+            <strong>Region:</strong>
+            ${hiddenGem.region}
+        </p>
+
+        <p>
+            ${hiddenGem.description}
+        </p>
+
+        <p>
+            <strong>Nearest Community:</strong>
+            ${hiddenGem.nearestCommunity}
+        </p>
+
+        <p>
+            <strong>Best Season:</strong>
+            ${hiddenGem.bestSeason}
+        </p>
+
+        <p>
+            <strong>Highlights:</strong>
+        </p>
+
+        <ul>
+            ${hiddenGem.highlights
+                    .map(h => `<li>${h}</li>`)
+                    .join('')}
+        </ul>
+
+        ${hiddenGem.website ?
+                    `
+        <p>
+            <strong>Website:</strong><br>
+            ${hiddenGem.website}
+               Visit Website
+            </a>
+        </p>
+        `
+                    : ''}
+
+    `;
+
+            openInfoPanel();
         }
 
         const attractionIcon = new L.Icon({
@@ -1944,7 +2009,11 @@
                 showAttractionDetails(result.name);
                 return;
             }
-
+            
+            if (result.type === 'hiddenGem') {
+                showHiddenGemDetails(result.name);
+                return;
+            }
             const region = regions.find(r =>
                 r.name === result.region
             );
