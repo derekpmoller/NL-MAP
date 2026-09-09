@@ -165,6 +165,7 @@
             }
 
         }
+
         /* Tablet layout */
         @media (min-width: 768px) and (max-width: 1024px) {
 
@@ -1518,7 +1519,64 @@
             ...communities,
             ...attractions
         ];
+        const attractionDetails = [
+            {
+                name: "Torngat Mountains National Park",
+                type: "attraction",
+                region: "Labrador",
+                category: "National Park",
+                lat: 58.80,
+                lon: -63.70,
+                website: "https://parks.canada.ca/pn-np/nl/torngats",
+                description: "Canada's northernmost national park featuring rugged Arctic mountains, fjords, wildlife, and Inuit cultural experiences.",
+                nearestCommunity: "Nain",
+                bestSeason: "June to September",
+                highlights: [
+                    "Arctic hiking",
+                    "Inuit cultural experiences",
+                    "Wildlife viewing",
+                    "Remote fjords"
+                ]
+            },
 
+            {
+                name: "Red Bay UNESCO World Heritage Site",
+                type: "attraction",
+                region: "Labrador",
+                category: "UNESCO World Heritage Site",
+                lat: 51.73,
+                lon: -56.43,
+                website: "",
+                description: "One of the best preserved Basque whaling stations in the world dating from the 1500s.",
+                nearestCommunity: "Red Bay",
+                bestSeason: "June to October",
+                highlights: [
+                    "UNESCO designation",
+                    "Basque whaling history",
+                    "Museum exhibits",
+                    "Archaeological sites"
+                ]
+            },
+
+            {
+                name: "Churchill Falls",
+                type: "attraction",
+                region: "Labrador",
+                category: "Engineering Landmark",
+                lat: 53.53,
+                lon: -64.11,
+                website: "",
+                description: "Home to one of the world's largest underground hydroelectric generating stations.",
+                nearestCommunity: "Churchill Falls",
+                bestSeason: "Year-round",
+                highlights: [
+                    "Hydroelectric station",
+                    "Engineering achievement",
+                    "Guided tours",
+                    "Labrador interior"
+                ]
+            }
+        ];
 
         const regions = [
             {
