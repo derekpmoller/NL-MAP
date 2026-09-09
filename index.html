@@ -383,11 +383,13 @@
                     `
         <p>
             <strong>Website:</strong><br>
-            ${hiddenGem.website}
-               Visit Website
+            <a href="${hiddenGem.website}"
+            target="_blank"
+            rel="noopener noreferrer">
+            Visit Website
             </a>
         </p>
-        `
+                    `
                     : ''}
 
     `;
@@ -922,6 +924,20 @@
                 region: 'Labrador',
                 lat: 56.54,
                 lon: -61.69
+            },
+            {
+                name: 'Akami-Uapishk / Mealy Mountains National Park Reserve',
+                type: 'hiddenGem',
+                region: 'Labrador',
+                lat: 53.60,
+                lon: -58.90
+            },
+            {
+                name: 'Nain Fjords',
+                type: 'hiddenGem',
+                region: 'Labrador',
+                lat: 56.55,
+                lon: -61.68
             },
             {
                 name: 'Codroy Valley',
@@ -1748,7 +1764,7 @@
             },
 
             {
-                name: "Wonderstrands Beach",
+                name: "The Wonderstrands",
                 type: "hidden-gem",
                 region: "Labrador",
                 category: "Beach",
@@ -1786,13 +1802,13 @@
             },
 
             {
-                name: "Akami-Uapishkᵁ / Mealy Mountains National Park Reserve",
+                name: "Akami-Uapishk / Mealy Mountains National Park Reserve",
                 type: "hidden-gem",
                 region: "Labrador",
                 category: "National Park Reserve",
                 lat: 53.600,
                 lon: -58.900,
-                website: "https://parks.canada.ca",
+                website: "https://parks.canada.ca/pn-np/nl/mealy",
                 description: "A vast protected landscape encompassing mountains, boreal forest, tundra, and rich Indigenous cultural heritage.",
                 nearestCommunity: "Happy Valley-Goose Bay",
                 bestSeason: "June to September",
@@ -1823,6 +1839,7 @@
                 ]
             }
 
+
         ];
 
         const regions = [
@@ -1843,7 +1860,7 @@
                 description: 'A vast and rugged land of mountains, tundra, Indigenous cultures, historic fishing settlements, and some of Canada\'s most remote wilderness.',
                 majorCommunities: 'Happy Valley-Goose Bay, Labrador City, Wabush, Nain, Cartwright, Red Bay',
                 attractions: 'Torngat Mountains National Park, Red Bay UNESCO World Heritage Site, Churchill Falls',
-                hiddenGems: 'Battle Harbour, Point Amour Lighthouse, The Wonderstrands, Tracey Hill Trail, North Coast Inuit Communities'
+                hiddenGems: 'Battle Harbour, Point Amour Lighthouse, The Wonderstrands, Tracey Hill Trail, Akami-Uapishk / Mealy Mountains National Park Reserve, Nain Fjords'
             },
             {
                 file: 'Data/NL-Northern_Peninsula_AUG_28_2026.geojson',
@@ -2009,7 +2026,7 @@
                 showAttractionDetails(result.name);
                 return;
             }
-            
+
             if (result.type === 'hiddenGem') {
                 showHiddenGemDetails(result.name);
                 return;
