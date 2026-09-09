@@ -264,7 +264,70 @@
             }
         }
 
+        function showAttractionDetails(name) {
 
+            const attraction =
+                attractionDetails.find(
+                    a => a.name === name
+                );
+
+            if (!attraction) return;
+
+            document.getElementById('info-panel').innerHTML = `
+
+        <h2>${attraction.name}</h2>
+
+        <p>
+            <strong>Category:</strong>
+            ${attraction.category}
+        </p>
+
+        <p>
+            <strong>Region:</strong>
+            ${attraction.region}
+        </p>
+
+        <p>
+            ${attraction.description}
+        </p>
+
+        <p>
+            <strong>Nearest Community:</strong>
+            ${attraction.nearestCommunity}
+        </p>
+
+        <p>
+            <strong>Best Season:</strong>
+            ${attraction.bestSeason}
+        </p>
+
+        <p>
+            <strong>Highlights:</strong>
+        </p>
+
+        <ul>
+            ${attraction.highlights
+                    .map(h => `<li>${h}</li>`)
+                    .join('')}
+        </ul>
+
+       ${attraction.website ?
+                    `
+        <p>
+            <strong>Website:</strong><br>
+            <a href="${attraction.website}"
+            target="_blank"
+            rel="noopener noreferrer">
+            Visit Website
+            </a>
+        </p>
+        `
+                    : ''}
+
+    `;
+
+            openInfoPanel();
+        }
 
         const attractionIcon = new L.Icon({
             iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
@@ -1875,6 +1938,11 @@
             searchMarker.bindPopup(
                 `<b>${result.name}</b><br><small>${resultType}</small>`
             ).openPopup();
+
+            if (result.type === 'attraction') {
+                showAttractionDetails(result.name);
+                return;
+            }
 
             const region = regions.find(r =>
                 r.name === result.region
