@@ -3538,6 +3538,11 @@
 
             }
 
+            localStorage.setItem(
+                'lastDestination',
+                result.name
+            );
+
             const zoomLevel = 10
             if (window.innerWidth < 768) {
 
@@ -3704,11 +3709,30 @@
 
         }
 
+        function restoreLastDestination() {
+
+            const lastDestination =
+                localStorage.getItem('lastDestination');
+
+            if (!lastDestination) {
+                return;
+            }
+
+            document.getElementById('communitySearch').value =
+                lastDestination;
+
+            findCommunity();
+
+        }
+
         regions.forEach(region => {
-            loadRegion(region)
-
-
+            loadRegion(region);
         });
+
+        window.addEventListener(
+            'load',
+            restoreLastDestination
+        );
 
     </script>
 
