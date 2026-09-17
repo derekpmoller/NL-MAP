@@ -216,7 +216,7 @@
             <strong>Explorer Search</strong>
         </div>
 
-        <input type="text" id="communitySearch" placeholder="Search communities, attractions, or hidden gems..."
+        <input type="text" id="communitySearch" placeholder="Search destinations, regions, categories, or interests..."
             onkeydown="handleSearch(event)" oninput="showAutocomplete()">
 
         <div id="autocomplete-list"></div>
@@ -860,7 +860,7 @@
                 name: 'Cow Head',
                 region: 'Northern Peninsula',
                 lat: 49.93,
-                lon: - 57.80
+                lon: -57.80
             },
 
 
@@ -1045,7 +1045,7 @@
                 type: 'hiddenGem',
                 region: 'Southwest Coast',
                 lat: 47.8167,
-                lon: - 59.3000
+                lon: -59.3000
             },
 
             {
@@ -1142,7 +1142,7 @@
                 region: 'Northern Peninsula',
                 category: "Cultural Experience",
                 lat: 51.58,
-                lon: - 55.53,
+                lon: -55.53,
             },
 
             {
@@ -1653,10 +1653,7 @@
 
         ];
 
-        const searchItems = [
-            ...communities,
-            ...attractions
-        ];
+
         const attractionDetails = [
             {
                 name: "Torngat Mountains National Park",
@@ -4328,6 +4325,51 @@
 
         ];
 
+        const destinationDetails = [
+            ...attractionDetails,
+            ...hiddenGemDetails
+        ];
+
+        const searchItems = [
+            ...communities.map(community => ({
+                ...community,
+                category: 'Community',
+                tags: [],
+                searchText: normalizeSearchText([
+                    community.name,
+                    community.region,
+                    'community'
+                ].join(' '))
+            })),
+
+            ...attractions.map(attraction => {
+                const details = destinationDetails.find(
+                    item => item.name === attraction.name
+                );
+
+                return {
+                    ...attraction,
+                    category: details?.category || '',
+                    tags: details?.tags || [],
+                    searchText: normalizeSearchText([
+                        attraction.name,
+                        attraction.region,
+                        details?.category || '',
+                        ...(details?.tags || [])
+                    ].join(' '))
+                };
+            })
+        ];
+
+        function matchesSearch(item, searchValue) {
+            const normalizedSearch = normalizeSearchText(searchValue);
+
+            if (!normalizedSearch) {
+                return false;
+            }
+
+            return item.searchText.includes(normalizedSearch);
+        }
         const regions = [
             {
                 file: 'Data/NL-Avalon_AUG_26_2026.geojson',
@@ -4404,6 +4446,12 @@
             }
 
         ];
+
+        function normalizeSearchText(value) {
+            return String(value || '')
+                .toLowerCase()
+                .replace(/[^a-z0-9]+/g, '');
+        }
 
         function findCommunity() {
 
@@ -4578,7 +4626,7 @@
 
             const matches = searchItems
                 .filter(item =>
-                    item.name.toLowerCase().includes(searchValue)
+                    matchesSearch(item, searchValue)
                 )
                 .slice(0, 15);
 
@@ -4588,7 +4636,15 @@
 
                 div.className = 'autocomplete-item';
 
-                div.textContent = item.name;
+                const resultType =
+                    item.type === 'hiddenGem'
+                        ? 'Hidden Gem'
+                        : item.type === 'attraction'
+                            ? 'Attraction'
+                            : 'Community';
+
+                div.textContent =
+                    `${item.name} · ${resultType} · ${item.region}`;
 
                 div.onclick = function () {
 
