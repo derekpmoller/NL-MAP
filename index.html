@@ -4568,24 +4568,14 @@
             const searchValue =
                 document.getElementById('communitySearch')
                     .value
-                    .trim()
-                    .toLowerCase();
+                    .trim();
 
+            const normalizedSearch =
+                normalizeSearchText(searchValue);
 
-            const community = communities.find(c =>
-                c.name.toLowerCase().includes(searchValue)
+            const result = searchItems.find(item =>
+                normalizeSearchText(item.name) === normalizedSearch
             );
-
-            let result = community;
-
-            if (!result) {
-
-                const attraction = attractions.find(a =>
-                    a.name.toLowerCase().includes(searchValue)
-                );
-
-                result = attraction;
-            }
 
             if (!result) {
 
