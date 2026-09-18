@@ -135,6 +135,18 @@
             cursor: pointer;
         }
 
+        .autocomplete-name {
+            font-weight: bold;
+            line-height: 1.25;
+        }
+
+        .autocomplete-details {
+            margin-top: 3px;
+            color: #555555;
+            font-size: 13px;
+            line-height: 1.25;
+        }
+
         .autocomplete-item:hover {
             background-color: #f0f0f0;
         }
@@ -4751,10 +4763,35 @@
                 const normalizedSearch =
                     normalizeSearchText(searchValue);
 
+                const relatedInterestTerms = {
+                    historic: [
+                        'historic',
+                        'history',
+                        'heritage',
+                        'nationalhistoricsite'
+                    ]
+                };
+
+                const interestTerms =
+                    relatedInterestTerms[normalizedSearch] ||
+                    [normalizedSearch];
+
+                const categoryMatch =
+                    interestTerms.some(term =>
+                        normalizeSearchText(item.category).includes(term)
+                    );
+
                 const matchingTag =
                     item.tags?.find(tag =>
-                        normalizeSearchText(tag).includes(normalizedSearch)
+                        interestTerms.some(term =>
+                            normalizeSearchText(tag).includes(term)
+                        )
                     );
+
+                const interestMatch =
+                    categoryMatch || Boolean(matchingTag);
+
+
 
                 const nameLine = document.createElement('div');
                 nameLine.className = 'autocomplete-name';
@@ -4763,7 +4800,7 @@
                 const detailLine = document.createElement('div');
                 detailLine.className = 'autocomplete-details';
 
-                if (matchingTag) {
+                if (interestMatch) {
                     const interestLabel =
                         formatInterestLabel(searchValue);
 
