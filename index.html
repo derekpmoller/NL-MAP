@@ -32,7 +32,6 @@
             top: 10px;
             left: 80px;
             z-index: 1000;
-            background: white;
             padding: 8px 15px;
             border-radius: 5px;
             font-family: Arial, sans-serif;
@@ -41,6 +40,40 @@
             margin: 0;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
             background: rgba(255, 255, 255, 0.95);
+
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        #season-indicator {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 9px;
+            border-radius: 14px;
+            font-size: 13px;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        #season-indicator.spring {
+            color: #256029;
+            background: #dff3df;
+        }
+
+        #season-indicator.summer {
+            color: #7a4d00;
+            background: #fff0b3;
+        }
+
+        #season-indicator.fall {
+            color: #7a3300;
+            background: #f8d5b5;
+        }
+
+        #season-indicator.winter {
+            color: #24557a;
+            background: #dceef8;
         }
 
         #info-panel {
@@ -118,6 +151,12 @@
         /* Mobile phone layout */
 
         @media (max-width: 767px) {
+
+            #season-indicator {
+                padding: 3px 6px;
+                font-size: 11px;
+            }
+
             #info-toggle {
                 display: block;
                 position: absolute;
@@ -159,6 +198,7 @@
                 width: auto;
                 font-size: 16px;
                 text-align: center;
+                gap: 8px;
             }
 
             #search-box {
@@ -199,7 +239,10 @@
 
 <body>
 
-    <h1 id="title">Newfoundland and Labrador Explorer</h1>
+    <div id="title">
+        <span>Newfoundland and Labrador Explorer</span>
+        <span id="season-indicator"></span>
+    </div>
 
     <div id="info-panel">
         <h2>Tourism Region</h2>
@@ -270,6 +313,59 @@
             } else {
                 openInfoPanel();
             }
+        }
+
+        function updateSeasonIndicator() {
+            const today = new Date();
+            const month = today.getMonth() + 1;
+            const day = today.getDate();
+
+            let season;
+            let icon;
+
+            if (
+                (month === 3 && day >= 20) ||
+                month === 4 ||
+                month === 5 ||
+                (month === 6 && day < 21)
+            ) {
+                season = 'spring';
+                icon = '🌱';
+            }
+            else if (
+                (month === 6 && day >= 21) ||
+                month === 7 ||
+                month === 8 ||
+                (month === 9 && day < 23)
+            ) {
+                season = 'summer';
+                icon = '☀️';
+            }
+            else if (
+                (month === 9 && day >= 23) ||
+                month === 10 ||
+                month === 11 ||
+                (month === 12 && day < 21)
+            ) {
+                season = 'fall';
+                icon = '🍂';
+            }
+            else {
+                season = 'winter';
+                icon = '❄️';
+            }
+
+            const indicator =
+                document.getElementById('season-indicator');
+
+            if (!indicator) {
+                return;
+            }
+
+            indicator.className = season;
+            indicator.textContent =
+                `${icon} ${season.charAt(0).toUpperCase() + season.slice(1)}`;
+            indicator.title = 'Current season in Newfoundland and Labrador';
         }
 
         function showAttractionDetails(name) {
@@ -4686,10 +4782,10 @@
             loadRegion(region);
         });
 
-        window.addEventListener(
-            'load',
-            restoreLastDestination
-        );
+        window.addEventListener('load', function () {
+            restoreLastDestination();
+            updateSeasonIndicator();
+        });
 
     </script>
 
