@@ -4702,6 +4702,17 @@
 
         }
 
+        function formatInterestLabel(searchValue) {
+            return searchValue
+                .trim()
+                .split(/\s+/)
+                .map(word =>
+                    word.charAt(0).toUpperCase() +
+                    word.slice(1).toLowerCase()
+                )
+                .join(' ');
+        }
+
         function showAutocomplete() {
 
             const searchValue =
@@ -4727,9 +4738,7 @@
                 .slice(0, 15);
 
             matches.forEach(item => {
-
                 const div = document.createElement('div');
-
                 div.className = 'autocomplete-item';
 
                 const resultType =
@@ -4739,22 +4748,45 @@
                             ? 'Attraction'
                             : 'Community';
 
-                div.textContent =
-                    `${item.name} · ${resultType} · ${item.region}`;
+                const normalizedSearch =
+                    normalizeSearchText(searchValue);
+
+                const matchingTag =
+                    item.tags?.find(tag =>
+                        normalizeSearchText(tag).includes(normalizedSearch)
+                    );
+
+                const nameLine = document.createElement('div');
+                nameLine.className = 'autocomplete-name';
+                nameLine.textContent = item.name;
+
+                const detailLine = document.createElement('div');
+                detailLine.className = 'autocomplete-details';
+
+                if (matchingTag) {
+                    const interestLabel =
+                        formatInterestLabel(searchValue);
+
+                    detailLine.textContent =
+                        `${interestLabel} Interest · ${resultType} · ${item.region}`;
+                }
+                else {
+                    detailLine.textContent =
+                        `${resultType} · ${item.region}`;
+                }
+
+                div.appendChild(nameLine);
+                div.appendChild(detailLine);
 
                 div.onclick = function () {
-
                     document.getElementById('communitySearch').value =
                         item.name;
 
                     list.style.display = 'none';
-
                     findCommunity();
-
                 };
 
                 list.appendChild(div);
-
             });
 
             list.style.display =
