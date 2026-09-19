@@ -4563,27 +4563,61 @@
 
         function findCommunity() {
 
-            closeInfoPanel();
+            const searchInput =
+                document.getElementById("communitySearch");
 
             const searchValue =
-                document.getElementById('communitySearch')
-                    .value
-                    .trim();
+                searchInput.value.trim().toLowerCase();
 
-            const normalizedSearch =
-                normalizeSearchText(searchValue);
+            const autocompleteList =
+                document.getElementById("autocomplete-list");
 
-            const result = searchItems.find(item =>
-                normalizeSearchText(item.name) === normalizedSearch
+            if (!searchValue) {
+                alert("Please enter a destination or interest.");
+                return;
+            }
+
+            // First, look for an exact destination-name match.
+            const exactMatch = searchItems.find(item =>
+                normalizeSearchText(item.name) ===
+                normalizeSearchText(searchValue)
             );
 
+            let result = exactMatch;
+
+            // If there is no exact match, find all broad matches.
             if (!result) {
 
-                alert('No matching destination found.');
+                const broadMatches = searchItems.filter(item =>
+                    matchesSearch(item, searchValue)
+                );
 
-                return;
+                // One broad match opens directly.
+                if (broadMatches.length === 1) {
+                    result = broadMatches[0];
+                }
 
+                // Multiple broad matches stay visible in autocomplete.
+                else if (broadMatches.length > 1) {
+                    showAutocomplete();
+
+                    alert(
+                        `${broadMatches.length} matches found. Please select a destination from the list.`
+                    );
+
+                    searchInput.focus();
+                    return;
+                }
+
+                // No broad matches.
+                else {
+                    autocompleteList.style.display = "none";
+                    alert("No matching destination found.");
+                    return;
+                }
             }
+
+            autocompleteList.style.display = "none";
 
             localStorage.setItem(
                 'lastDestination',
