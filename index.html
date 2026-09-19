@@ -245,6 +245,24 @@
             #communitySearch {
                 width: 180px;
             }
+
+        }
+
+        .matched-interest {
+            display: inline-block;
+            margin: 0 0 12px 0;
+            padding: 5px 9px;
+            border-radius: 12px;
+            background: #e8f2ff;
+            color: #174f83;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .matched-highlight {
+            background: #fff3bf;
+            border-radius: 3px;
+            padding: 2px 4px;
         }
     </style>
 </head>
@@ -291,6 +309,7 @@
         const map = L.map('map').setView([50.5, -57.5], 5);
 
         let searchMarker;
+        let pendingMatchedInterest = null;
 
         function isMobileView() {
             return window.innerWidth < 768;
@@ -380,7 +399,10 @@
             indicator.title = 'Current season in Newfoundland and Labrador';
         }
 
-        function showAttractionDetails(name) {
+        function showAttractionDetails(
+            name,
+            matchInfo = null
+        ) {
 
             const attraction =
                 attractionDetails.find(
@@ -392,6 +414,8 @@
             document.getElementById('info-panel').innerHTML = `
 
         <h2>${attraction.name}</h2>
+
+        ${renderMatchedInterest(matchInfo)}
 
         <p>
             <strong>Category:</strong>
@@ -422,9 +446,10 @@
         </p>
 
         <ul>
-            ${attraction.highlights
-                    .map(h => `<li>${h}</li>`)
-                    .join('')}
+            ${renderHighlights(
+                attraction.highlights,
+                matchInfo
+            )}
         </ul>
 
        ${attraction.website ?
@@ -448,7 +473,10 @@
 
         }
 
-        function showHiddenGemDetails(name) {
+        function showHiddenGemDetails(
+            name,
+            matchInfo = null
+        ) {
 
             const hiddenGem =
                 hiddenGemDetails.find(
@@ -460,6 +488,8 @@
             document.getElementById('info-panel').innerHTML = `
 
         <h2>${hiddenGem.name}</h2>
+
+        ${renderMatchedInterest(matchInfo)}
 
         <p>
             <strong>Category:</strong>
@@ -490,9 +520,10 @@
         </p>
 
         <ul>
-            ${hiddenGem.highlights
-                    .map(h => `<li>${h}</li>`)
-                    .join('')}
+            ${renderHighlights(
+                hiddenGem.highlights,
+                matchInfo
+            )}
         </ul>
 
         ${hiddenGem.website ?
@@ -4561,6 +4592,159 @@
                 .replace(/[^a-z0-9]+/g, '');
         }
 
+        function getInterestTerms(searchValue) {
+
+            const normalizedSearch =
+                normalizeSearchText(searchValue);
+
+            const relatedTerms = {
+                museum: [
+                    "museum",
+                    "exhibit",
+                    "exhibits",
+                    "artifact",
+                    "artifacts",
+                    "interpretive",
+                    "archaeological"
+                ],
+
+                historic: [
+                    "historic",
+                    "history",
+                    "heritage",
+                    "nationalhistoricsite"
+                ],
+
+                hiking: [
+                    "hiking",
+                    "trail",
+                    "walking"
+                ],
+
+                wildlife: [
+                    "wildlife",
+                    "whales",
+                    "birds",
+                    "puffins"
+                ],
+
+                lighthouse: [
+                    "lighthouse"
+                ],
+
+                iceberg: [
+                    "iceberg",
+                    "icebergs"
+                ],
+
+                icebergs: [
+                    "iceberg",
+                    "icebergs"
+                ],
+
+                family: [
+                    "family"
+                ],
+
+                scenicdrive: [
+                    "scenicdrive",
+                    "driving"
+                ]
+            };
+
+            return relatedTerms[normalizedSearch] ||
+                [normalizedSearch];
+        }
+
+        function getMatchedInterest(item, searchValue) {
+
+            const normalizedSearch =
+                normalizeSearchText(searchValue);
+
+            if (!normalizedSearch) {
+                return null;
+            }
+
+            /*
+               Do not show an interest badge when the search
+               matches the destination's name.
+            */
+            if (
+                normalizeSearchText(item.name)
+                    .includes(normalizedSearch)
+            ) {
+                return null;
+            }
+
+            const terms =
+                getInterestTerms(searchValue);
+
+            const categoryMatch =
+                terms.some(term =>
+                    normalizeSearchText(item.category)
+                        .includes(term)
+                );
+
+            const tagMatch =
+                item.tags?.some(tag =>
+                    terms.some(term =>
+                        normalizeSearchText(tag)
+                            .includes(term)
+                    )
+                );
+
+            if (!categoryMatch && !tagMatch) {
+                return null;
+            }
+
+            return {
+                label: formatInterestLabel(searchValue),
+                terms: terms
+            };
+        }
+
+        function renderMatchedInterest(matchInfo) {
+
+            if (!matchInfo) {
+                return "";
+            }
+
+            return `
+        <div class="matched-interest">
+            Matched interest: ${matchInfo.label}
+        </div>
+    `;
+        }
+
+        function renderHighlights(highlights, matchInfo) {
+
+            return highlights
+                .map(highlight => {
+
+                    let className = "";
+
+                    if (matchInfo) {
+
+                        const normalizedHighlight =
+                            normalizeSearchText(highlight);
+
+                        const supportsInterest =
+                            matchInfo.terms.some(term =>
+                                normalizedHighlight.includes(term)
+                            );
+
+                        if (supportsInterest) {
+                            className =
+                                ' class="matched-highlight"';
+                        }
+                    }
+
+                    return `<li${className}>${highlight}</li>`;
+                })
+                .join("");
+        }
+
+
         function findCommunity() {
 
             const searchInput =
@@ -4612,12 +4796,22 @@
                 // No broad matches.
                 else {
                     autocompleteList.style.display = "none";
+                    pendingMatchedInterest = null;
                     alert("No matching destination found.");
                     return;
                 }
             }
 
             autocompleteList.style.display = "none";
+
+            const matchInfo =
+                pendingMatchedInterest ||
+                getMatchedInterest(
+                    result,
+                    searchValue
+                );
+
+            pendingMatchedInterest = null;
 
             localStorage.setItem(
                 'lastDestination',
@@ -4694,12 +4888,18 @@
             ).openPopup();
 
             if (result.type === 'attraction') {
-                showAttractionDetails(result.name);
+                showAttractionDetails(
+                    result.name,
+                    matchInfo
+                );
                 return;
             }
 
             if (result.type === 'hiddenGem') {
-                showHiddenGemDetails(result.name);
+                showHiddenGemDetails(
+                    result.name,
+                    matchInfo
+                );
                 return;
             }
             const region = regions.find(r =>
@@ -4840,10 +5040,18 @@
                 div.appendChild(detailLine);
 
                 div.onclick = function () {
+
+                    pendingMatchedInterest =
+                        getMatchedInterest(
+                            item,
+                            searchValue
+                        );
+
                     document.getElementById('communitySearch').value =
                         item.name;
 
                     list.style.display = 'none';
+
                     findCommunity();
                 };
 
