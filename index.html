@@ -4598,63 +4598,113 @@
                 normalizeSearchText(searchValue);
 
             const relatedTerms = {
+
                 museum: [
                     "museum",
+                    "museums",
                     "exhibit",
                     "exhibits",
                     "artifact",
                     "artifacts",
                     "interpretive",
-                    "archaeological"
+                    "interpretation",
+                    "archaeological",
+                    "archaeology",
+                    "heritage centre",
+                    "visitor centre"
                 ],
 
                 historic: [
                     "historic",
                     "history",
                     "heritage",
-                    "nationalhistoricsite"
+                    "national historic site",
+                    "nationalhistoricsite",
+                    "archaeological",
+                    "archaeology",
+                    "restored",
+                    "traditional"
                 ],
 
                 hiking: [
                     "hiking",
+                    "hike",
                     "trail",
-                    "walking"
-                ],
-
-                wildlife: [
-                    "wildlife",
-                    "whales",
-                    "birds",
-                    "puffins"
+                    "trails",
+                    "walking",
+                    "walks",
+                    "path",
+                    "cliffs",
+                    "viewpoint",
+                    "viewpoints"
                 ],
 
                 lighthouse: [
-                    "lighthouse"
+                    "lighthouse",
+                    "lighthouses",
+                    "maritime",
+                    "navigation",
+                    "beacon"
                 ],
 
                 iceberg: [
                     "iceberg",
-                    "icebergs"
+                    "icebergs",
+                    "iceberg viewing",
+                    "iceberg alley"
                 ],
 
                 icebergs: [
                     "iceberg",
-                    "icebergs"
+                    "icebergs",
+                    "iceberg viewing",
+                    "iceberg alley"
+                ],
+
+                wildlife: [
+                    "wildlife",
+                    "whale",
+                    "whales",
+                    "bird",
+                    "birds",
+                    "seabird",
+                    "seabirds",
+                    "puffin",
+                    "puffins",
+                    "gannets",
+                    "nature viewing",
+                    "marine wildlife"
                 ],
 
                 family: [
-                    "family"
+                    "family",
+                    "families",
+                    "family recreation",
+                    "easy",
+                    "educational",
+                    "roadside attraction",
+                    "visitor centre",
+                    "guided tours"
                 ],
 
                 scenicdrive: [
-                    "scenicdrive",
-                    "driving"
+                    "scenic drive",
+                    "scenic driving",
+                    "driving",
+                    "touring route",
+                    "road trip"
                 ]
             };
 
-            return relatedTerms[normalizedSearch] ||
-                [normalizedSearch];
+            return (
+                relatedTerms[normalizedSearch] ||
+                [normalizedSearch]
+            ).map(term =>
+                normalizeSearchText(term)
+            );
         }
+
+
 
         function getMatchedInterest(item, searchValue) {
 
@@ -4665,16 +4715,7 @@
                 return null;
             }
 
-            /*
-               Do not show an interest badge when the search
-               matches the destination's name.
-            */
-            if (
-                normalizeSearchText(item.name)
-                    .includes(normalizedSearch)
-            ) {
-                return null;
-            }
+
 
             const terms =
                 getInterestTerms(searchValue);
