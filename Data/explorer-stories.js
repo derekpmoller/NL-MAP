@@ -39,14 +39,17 @@ const explorerStories = [
         ],
 
         experience:
-            "Brigus was a wonderful overnight getaway. The town was easy to explore on foot and offered history, culture, ocean views, dining, theatre, and unique local experiences.",
+            "Brigus was a wonderful overnight getaway with history, culture, ocean views, theatre, and unique local experiences. The town was easy to explore on foot, and we enjoyed good, affordable food at The Quay Restaurant.",
 
         theatreExperience:
             "We attended Romeo and Juliet at Perchance Theatre. The production quality was excellent. My son especially enjoyed it because he had studied Romeo and Juliet in school, and seeing it performed live helped bring the story to life. A previous comedy production we attended was not as much to our personal taste, but Romeo and Juliet was outstanding.",
 
         travelTip:
-            "Arrive several hours before the performance and spend time exploring the town before the show.",
+            "If travelling from St. John's, arrive at least 15 minutes before the show. Afterward, continue to Brigus for the rest of your visit and overnight stay.",
 
+        didYouKnow: [
+            "One of the most interesting things we learned at Hawthorne Cottage was that Captain Bob Bartlett brought animals back from his northern expeditions. We were told that some of the animals stayed in Brigus until they were ready to travel to New York. A young walrus named Peel was eventually transported aboard the Effie M. Morrissey to the Bronx Zoo."
+        ],
         wouldRecommend: true,
 
         whoWouldEnjoy: [

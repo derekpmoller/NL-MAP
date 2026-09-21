@@ -22,6 +22,7 @@
 
     <meta property="og:locale" content="en_CA">
 
+    <script src="Data/explorer-stories.js"></script>
 
     <script type="text/javascript">
         (function (c, l, a, r, i, t, y) {
@@ -418,6 +419,123 @@
             indicator.title = 'Current season in Newfoundland and Labrador';
         }
 
+        function getExplorerStory(destinationName) {
+            return explorerStories.find(
+                story => story.destination === destinationName
+            );
+        }
+
+        function renderExplorerStoryButton(destinationName) {
+
+            const story = getExplorerStory(destinationName);
+
+            if (!story) {
+                return "";
+            }
+
+            return `
+        <hr>
+        <h3>Explorer Story</h3>
+        <p>
+            A personal travel experience is available
+            for this destination.
+        </p>
+
+        <button
+            onclick="showExplorerStory('${destinationName}')"
+        >
+            Read Explorer Story
+        </button>
+    `;
+        }
+
+        function showExplorerStory(destinationName) {
+
+            const story = getExplorerStory(destinationName);
+
+            if (!story) {
+                return;
+            }
+
+            document.getElementById("info-panel").innerHTML = `
+
+        <h2>${story.title}</h2>
+
+        <p>
+            <strong>Date Visited:</strong>
+            ${story.dateVisited}
+        </p>
+
+        <p>
+            <strong>Duration:</strong>
+            ${story.duration}
+        </p>
+
+        <p>
+            <strong>Stayed At:</strong>
+            ${story.accommodation.name}
+        </p>
+
+        <p>
+            <strong>Dined At:</strong>
+            ${story.restaurants
+                    .map(r => r.name)
+                    .join(", ")}
+        </p>
+
+        <p>
+            <strong>Highlights:</strong>
+        </p>
+
+        <ul>
+            ${story.highlights
+                    .map(h => `<li>${h}</li>`)
+                    .join("")}
+        </ul>
+
+        ${story.didYouKnow?.length
+                    ? `
+            <h3>Did You Know?</h3>
+
+            <ul>
+                ${story.didYouKnow
+                        .map(item => `<li>${item}</li>`)
+                        .join("")}
+            </ul>
+          `
+                    : ""
+                }
+
+        <p>
+            <strong>My Experience:</strong><br>
+            ${story.experience}
+        </p>
+
+        <p>
+            <strong>Travel Tip:</strong><br>
+            ${story.travelTip}
+        </p>
+
+        <p>
+            <strong>Would Recommend?</strong>
+            ${story.wouldRecommend ? "Yes" : "No"}
+        </p>
+
+        <p>
+            <strong>Would I Go Again?</strong>
+            ${story.wouldGoAgain ? "Yes" : "No"}
+        </p>
+
+        <button
+            onclick="showHiddenGemDetails('${destinationName}')"
+        >
+            Back to Destination
+        </button>
+    `;
+
+            openInfoPanel();
+        }
+
         function showAttractionDetails(
             name,
             matchInfo = null
@@ -555,6 +673,7 @@
             Visit Website
             </a>
         </p>
+        ${renderExplorerStoryButton(hiddenGem.name)}
                     `
                     : ''}
 
