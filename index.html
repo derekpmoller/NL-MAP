@@ -510,6 +510,16 @@
             <strong>My Experience:</strong><br>
             ${story.experience}
         </p>
+       ${story.theatreExperience
+                    ? `
+        <h3>Theatre Experience</h3>
+        <p>
+            ${story.theatreExperience}
+        </p>
+      `
+                    : ""
+                }
+
 
         <p>
             <strong>Travel Tip:</strong><br>

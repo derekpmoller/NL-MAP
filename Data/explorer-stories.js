@@ -71,7 +71,82 @@ const explorerStories = [
         videos: [],
 
         overallRating: 5
+    },
+
+    {
+        title: "Signal Hill Road Trip and Hiking Experience",
+
+        destination: "Signal Hill",
+
+        dateVisited: "2026-09-20",
+
+        duration: "",
+
+        accommodation: {
+            name: ""
+        },
+
+        restaurants: [],
+
+        activities: [
+            "Drove through downtown St. John's",
+            "Travelled up Signal Hill Road",
+            "Visited the top of Signal Hill",
+            "Explored the area around Cabot Tower",
+            "Walked the Signal Hill trail",
+            "Recorded views of the city, harbour, and coastline"
+        ],
+
+        highlights: [
+            "Drive through downtown St. John's",
+            "Scenic climb up Signal Hill Road",
+            "Views of St. John's Harbour",
+            "Cabot Tower",
+            "Signal Hill hiking trail",
+            "Coastal scenery"
+        ],
+
+        didYouKnow: [],
+
+        experience:
+            "The experience began with a drive through downtown St. John's before continuing up Signal Hill Road to the top of Signal Hill. After exploring the summit area, we continued on foot along the famous trail, taking in views of the city, harbour, and rugged coastline.",
+
+        travelTip:
+            "",
+
+        wouldRecommend: true,
+
+        whoWouldEnjoy: [
+            "Visitors interested in scenic drives",
+            "Walkers and hikers",
+            "History and heritage enthusiasts",
+            "Photographers",
+            "Visitors who enjoy coastal scenery",
+            "People exploring St. John's"
+        ],
+
+        wouldGoAgain: true,
+
+        returnReason:
+            "",
+
+        photos: [],
+
+        videos: [
+            {
+                title: "Downtown St. John's to Signal Hill",
+                file: ""
+            },
+            {
+                title: "Walking the Signal Hill Trail",
+                file: ""
+            }
+        ],
+
+        overallRating: 0
     }
+
+
 ];
 
 window.explorerStories = explorerStories;
