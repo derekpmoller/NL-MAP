@@ -42,7 +42,7 @@ const explorerStories = [
             "Brigus was a wonderful overnight getaway with history, culture, ocean views, theatre, and unique local experiences. The town was easy to explore on foot, and we enjoyed good, affordable food at The Quay Restaurant.",
 
         theatreExperience:
-            "We attended Romeo and Juliet at Perchance Theatre. The production quality was excellent. My son especially enjoyed it because he had studied Romeo and Juliet in school, and seeing it performed live helped bring the story to life. A previous comedy production we attended was not as much to our personal taste, but Romeo and Juliet was outstanding.",
+            "We attended Romeo and Juliet at Perchance Theatre in Conception Harbour, a short drive from Brigus. The production quality was excellent. My son especially enjoyed it because he had studied Romeo and Juliet in school, and seeing it performed live helped bring the story to life. A previous comedy production we attended was not as much to our personal taste, but Romeo and Juliet was outstanding.",
 
         travelTip:
             "If travelling from St. John's, arrive at least 15 minutes before the show. Afterward, continue to Brigus for the rest of your visit and overnight stay.",
@@ -135,13 +135,12 @@ const explorerStories = [
         videos: [
             {
                 title: "Downtown St. John's to Signal Hill",
-                file: ""
-            },
-            {
-                title: "Walking the Signal Hill Trail",
-                file: ""
+                url: "https://youtu.be/gwKLoDqCw44",
+                source: "YouTube",
+                experienceType: "NL Explorer First-Hand Experience"
             }
         ],
+
 
         overallRating: 0
     }

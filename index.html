@@ -284,6 +284,37 @@
             border-radius: 3px;
             padding: 2px 4px;
         }
+
+        .experience-video {
+            margin-top: 10px;
+            padding: 10px;
+            border: 1px solid #dddddd;
+            border-radius: 6px;
+            background: #f7f9fb;
+        }
+
+        .experience-video p {
+            margin: 0 0 7px 0;
+        }
+
+        .experience-type {
+            color: #555555;
+            font-size: 13px;
+        }
+
+        .video-link {
+            display: inline-block;
+            padding: 8px 12px;
+            border-radius: 5px;
+            background: #c4302b;
+            color: #ffffff;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .video-link:hover {
+            background: #9f2521;
+        }
     </style>
 </head>
 
@@ -449,6 +480,30 @@
     `;
         }
 
+        function returnToDestination(destinationName) {
+
+            const attractionExists =
+                attractionDetails.some(
+                    attraction =>
+                        attraction.name === destinationName
+                );
+
+            if (attractionExists) {
+                showAttractionDetails(destinationName);
+                return;
+            }
+
+            const hiddenGemExists =
+                hiddenGemDetails.some(
+                    hiddenGem =>
+                        hiddenGem.name === destinationName
+                );
+
+            if (hiddenGemExists) {
+                showHiddenGemDetails(destinationName);
+            }
+        }
+
         function showExplorerStory(destinationName) {
 
             const story = getExplorerStory(destinationName);
@@ -536,11 +591,45 @@
             ${story.wouldGoAgain ? "Yes" : "No"}
         </p>
 
+        ${story.videos?.some(video => video.url) ? `
+    <hr>
+
+    <h3>Travel Experience Video</h3>
+
+    ${story.videos
+                        .filter(video => video.url)
+                        .map(video => `
+            <div class="experience-video">
+
+                <p>
+                    <strong>${video.title}</strong>
+                </p>
+
+                ${video.experienceType ? `
+                    <p class="experience-type">
+                        ${video.experienceType}
+                    </p>
+                ` : ""}
+
+                <a
+                    class="video-link"
+                    href="${video.url}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    Watch Video on YouTube
+                </a>
+
+            </div>
+        `)
+                        .join("")}
+` : ""}
+
         <button
-            onclick="showHiddenGemDetails('${destinationName}')"
-        >
-            Back to Destination
-        </button>
+    onclick="returnToDestination('${destinationName}')"
+>
+    Back to Destination
+</button>
     `;
 
             openInfoPanel();
@@ -612,7 +701,7 @@
         `
                     : ''}
 
-                    
+      ${renderExplorerStoryButton(attraction.name)}
 
     `;
 
