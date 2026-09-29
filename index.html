@@ -504,6 +504,37 @@
             }
         }
 
+        function formatStoryDate(dateValue) {
+
+            if (!dateValue) {
+                return "";
+            }
+
+            const dateParts =
+                dateValue.split("-");
+
+            const year =
+                Number(dateParts[0]);
+
+            const month =
+                Number(dateParts[1]) - 1;
+
+            const day =
+                Number(dateParts[2]);
+
+            const storyDate =
+                new Date(year, month, day);
+
+            return storyDate.toLocaleDateString(
+                "en-CA",
+                {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric"
+                }
+            );
+        }
+
         function showExplorerStory(destinationName) {
 
             const story = getExplorerStory(destinationName);
@@ -516,37 +547,52 @@
 
         <h2>${story.title}</h2>
 
-        <p>
-            <strong>Date Visited:</strong>
-            ${story.dateVisited}
-        </p>
+${story.dateVisited ? `
+    <p>
+        <strong>Date Visited:</strong>
+        ${formatStoryDate(story.dateVisited)}
+    </p>
+` : ""}
 
-        <p>
-            <strong>Duration:</strong>
-            ${story.duration}
-        </p>
+${story.duration ? `
+    <p>
+        <strong>Duration:</strong>
+        ${story.duration}
+    </p>
+` : ""}
 
-        <p>
-            <strong>Stayed At:</strong>
-            ${story.accommodation.name}
-        </p>
+${story.accommodation?.name ? `
+    <p>
+        <strong>Stayed At:</strong>
+        ${story.accommodation.name}
+    </p>
+` : ""}
 
-        <p>
-            <strong>Dined At:</strong>
-            ${story.restaurants
-                    .map(r => r.name)
-                    .join(", ")}
-        </p>
+${story.restaurants?.length ? `
+    <p>
+        <strong>Dined At:</strong>
+        ${story.restaurants
+                        .map(restaurant => restaurant.name)
+                        .join(", ")}
+    </p>
+` : ""}
 
-        <p>
-            <strong>Highlights:</strong>
-        </p>
+${story.highlights?.length ? `
+    <p>
+        <strong>Highlights:</strong>
+    </p>
 
-        <ul>
-            ${story.highlights
-                    .map(h => `<li>${h}</li>`)
-                    .join("")}
-        </ul>
+    <ul>
+        ${[...new Set(story.highlights)]
+                        .filter(highlight =>
+                            highlight.trim()
+                        )
+                        .map(highlight => `
+                <li>${highlight}</li>
+            `)
+                        .join("")}
+    </ul>
+` : ""}
 
         ${story.didYouKnow?.length
                     ? `
@@ -576,10 +622,12 @@
                 }
 
 
-        <p>
-            <strong>Travel Tip:</strong><br>
-            ${story.travelTip}
-        </p>
+        ${story.travelTip ? `
+    <p>
+        <strong>Travel Tip:</strong><br>
+        ${story.travelTip}
+    </p>
+` : ""}
 
         <p>
             <strong>Would Recommend?</strong>
@@ -762,21 +810,22 @@
             )}
         </ul>
 
-        ${hiddenGem.website ?
-                    `
-        <p>
-            <strong>Website:</strong><br>
-            <a href="${hiddenGem.website}"
-            target="_blank"
-            rel="noopener noreferrer">
-            Visit Website
-            </a>
-        </p>
-        ${renderExplorerStoryButton(hiddenGem.name)}
-                    `
-                    : ''}
+        ${hiddenGem.website ? `
+    <p>
+        <strong>Website:</strong><br>
 
-    `;
+        <a
+            href="${hiddenGem.website}"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            Visit Website
+        </a>
+    </p>
+` : ""}
+
+${renderExplorerStoryButton(hiddenGem.name)}
+`;
 
             openInfoPanel();
         }
