@@ -138,6 +138,12 @@ const explorerStories = [
                 url: "https://youtu.be/gwKLoDqCw44",
                 source: "YouTube",
                 experienceType: "NL Explorer First-Hand Experience"
+            },
+            {
+                title: "Walking the Signal Hill Trail",
+                url: "https://youtu.be/IGfA2-oSmpk",
+                source: "YouTube",
+                experienceType: "NL Explorer First-Hand Experience"
             }
         ],
 
