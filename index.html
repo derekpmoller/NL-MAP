@@ -501,6 +501,21 @@
 
             if (hiddenGemExists) {
                 showHiddenGemDetails(destinationName);
+                return;
+            }
+
+            const communityExists =
+                communities.some(
+                    community =>
+                        community.name === destinationName
+                );
+
+            if (communityExists) {
+                document
+                    .getElementById("communitySearch")
+                    .value = destinationName;
+
+                findCommunity();
             }
         }
 
@@ -897,23 +912,30 @@ ${renderExplorerStoryButton(hiddenGem.name)}
                                 layer.openPopup();
 
                                 document.getElementById('info-panel').innerHTML = `
-                                <h2>${region.name}</h2>
+        <h2>${region.name}</h2>
 
-                                
-                                <hr>
+        <hr>
 
-                                <p>${region.description || ''}</p>
+        <p>
+            ${region.description || ''}
+        </p>
 
-                                <p><strong>Major Communities</strong><br>
-                                ${region.majorCommunities || ''}</p>
+        <p>
+            <strong>Major Communities</strong><br>
+            ${region.majorCommunities || ''}
+        </p>
 
-                                <p><strong>Key Attractions</strong><br>
-                                ${region.attractions || ''}</p>
+        <p>
+            <strong>Key Attractions</strong><br>
+            ${region.attractions || ''}
+        </p>
 
-                               <p><strong>Hidden Gems</strong><br>
-                                ${region.hiddenGems || ''}</p>
-                        
-                            `;
+        <p>
+            <strong>Hidden Gems</strong><br>
+            ${region.hiddenGems || ''}
+        </p>
+    `;
+
                                 openInfoPanel();
                             });
 
@@ -1072,6 +1094,13 @@ ${renderExplorerStoryButton(hiddenGem.name)}
                 region: 'Central Newfoundland',
                 lat: 48.95,
                 lon: -54.61
+            },
+
+            {
+                name: "Glovertown",
+                region: "Central Newfoundland",
+                lat: 48.68,
+                lon: -54.03
             },
 
             {
@@ -5238,21 +5267,40 @@ ${renderExplorerStoryButton(hiddenGem.name)}
             }
 
             document.getElementById('info-panel').innerHTML = `
-    <h2>${region.name}</h2>
+    <h2>${result.name}</h2>
+
+    <p>
+        <strong>Community</strong><br>
+        ${region.name}
+    </p>
 
     <hr>
 
-    <p>${region.description || ''}</p>
+    <h3>${region.name}</h3>
 
-    <p><strong>Major Communities</strong><br>
-    ${region.majorCommunities || ''}</p>
+    <p>
+        ${region.description || ''}
+    </p>
 
-    <p><strong>Key Attractions</strong><br>
-    ${region.attractions || ''}</p>
+    <p>
+        <strong>Major Communities</strong><br>
+        ${region.majorCommunities || ''}
+    </p>
 
-    <p><strong>Hidden Gems</strong><br>
-    ${region.hiddenGems || ''}</p>
-    `;
+    <p>
+        <strong>Key Attractions</strong><br>
+        ${region.attractions || ''}
+    </p>
+
+    <p>
+        <strong>Hidden Gems</strong><br>
+        ${region.hiddenGems || ''}
+    </p>
+
+    ${renderExplorerStoryButton(result.name)}
+`;
+
+            openInfoPanel();
 
 
         }
