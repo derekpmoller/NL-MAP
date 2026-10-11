@@ -315,6 +315,267 @@
         .video-link:hover {
             background: #9f2521;
         }
+
+
+        /* Explore by Experience */
+        #experience-panel {
+            position: absolute;
+            top: 90px;
+            left: 42px;
+            z-index: 1000;
+            width: min(760px, calc(100vw - 670px));
+            min-width: 520px;
+            padding: 14px 16px 15px;
+            border: 1px solid rgba(23, 79, 131, 0.12);
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.97);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.20);
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        #experience-panel.is-collapsed {
+            display: none;
+        }
+
+        #experience-close {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 30px;
+            height: 30px;
+            padding: 0;
+            border: 0;
+            border-radius: 50%;
+            background: #e8f2fb;
+            color: #174f83;
+            font-size: 20px;
+            line-height: 30px;
+            cursor: pointer;
+        }
+
+        #experience-close:hover,
+        #experience-reopen:hover {
+            background: #d7eafb;
+        }
+
+        #experience-reopen {
+            position: absolute;
+            top: 88px;
+            left:80px;
+            z-index: 1000;
+            padding: 10px 14px;
+            border: 1px solid #9dbed8;
+            border-radius: 22px;
+            background: rgba(255, 255, 255, 0.97);
+            color: #174f83;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            font-weight: bold;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+            cursor: pointer;
+        }
+
+        #experience-reopen[hidden] {
+            display: none;
+        }
+
+        .experience-heading {
+            margin: 0 38px 11px 0;
+        }
+
+        .experience-heading strong {
+            display: block;
+            color: #173f5f;
+            font-size: 18px;
+            line-height: 1.2;
+        }
+
+        .experience-heading span {
+            display: block;
+            margin-top: 4px;
+            color: #5a6771;
+            font-size: 13px;
+            line-height: 1.35;
+        }
+
+        .experience-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 9px;
+        }
+
+        .experience-choice {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            min-width: 0;
+            min-height: 58px;
+            padding: 8px 9px;
+            border: 1px solid #bfd3e4;
+            border-radius: 12px;
+            background: linear-gradient(145deg, #ffffff, #eef6fc);
+            color: #174f83;
+            font-family: Arial, sans-serif;
+            text-align: left;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+            cursor: pointer;
+            transition: transform 0.15s ease, border-color 0.2s ease,
+                box-shadow 0.2s ease, background-color 0.2s ease;
+        }
+
+        .experience-choice:hover {
+            transform: translateY(-1px);
+            border-color: #6f9fc8;
+            box-shadow: 0 4px 9px rgba(0, 0, 0, 0.13);
+        }
+
+        .experience-choice:active {
+            transform: scale(0.98);
+        }
+
+        .experience-choice:focus-visible,
+        #experience-close:focus-visible,
+        #experience-reopen:focus-visible {
+            outline: 3px solid rgba(31, 111, 178, 0.32);
+            outline-offset: 2px;
+        }
+
+        .experience-choice.selected {
+            border-color: #1f6fb2;
+            background: #dceefe;
+            box-shadow: 0 0 0 2px rgba(31, 111, 178, 0.15);
+        }
+
+        .experience-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex: 0 0 38px;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: #e2f1fb;
+            font-size: 20px;
+            line-height: 1;
+        }
+
+
+
+        .experience-text {
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+        }
+
+        .experience-text strong {
+            color: #173f5f;
+            font-size: 11.5px;
+            line-height: 1.15;
+            white-space: nowrap;
+            letter-spacing: -0.15px;
+        }
+
+        .lighthouse-choice {
+            gap: 4px;
+            padding-left: 7px;
+            padding-right: 7px;
+        }
+
+        .lighthouse-choice .experience-icon {
+            flex-basis: 34px;
+            width: 34px;
+            height: 34px;
+        }
+
+        .lighthouse-choice .experience-text strong {
+            font-size: 11px;
+            letter-spacing: -0.3px;
+            white-space: nowrap;
+        }
+
+        .lighthouse-icon+.experience-text strong {
+            font-size: 11.5px;
+            letter-spacing: -0.2px;
+            white-space: nowrap;
+        }
+
+
+        .experience-text small {
+            margin-top: 3px;
+            color: #667788;
+            font-size: 11px;
+            font-weight: normal;
+            line-height: 1.15;
+        }
+
+        #autocomplete-list {
+            max-height: 280px;
+            overflow-y: auto;
+        }
+
+        @media (min-width: 768px) and (max-width: 1100px) {
+            #experience-panel {
+                top: 80px;
+                left: 20px;
+                width: calc(100vw - 450px);
+                min-width: 420px;
+            }
+
+            .experience-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            #experience-reopen {
+                top: 80px;
+                left: 20px;
+            }
+        }
+
+        @media (max-width: 767px) {
+            #experience-panel {
+                top: 145px;
+                left: 10px;
+                right: 10px;
+                width: auto;
+                min-width: 0;
+                padding: 11px 10px 10px;
+            }
+
+            .experience-heading strong {
+                font-size: 15px;
+            }
+
+            .experience-heading span {
+                font-size: 11px;
+            }
+
+            .experience-grid {
+                display: flex;
+                gap: 8px;
+                overflow-x: auto;
+                padding: 2px 2px 8px;
+                scroll-snap-type: x mandatory;
+                scrollbar-width: thin;
+            }
+
+            .experience-choice {
+                flex: 0 0 138px;
+                min-height: 54px;
+                scroll-snap-align: start;
+            }
+
+            #experience-reopen {
+                top: 145px;
+                left: 10px;
+                padding: 9px 12px;
+                font-size: 13px;
+            }
+
+            #autocomplete-list {
+                max-height: 240px;
+            }
+        }
     </style>
 </head>
 
@@ -334,14 +595,138 @@
         Info
     </button>
 
+    <div id="experience-panel">
+
+        <button id="experience-close" type="button" onclick="setExperiencePanelOpen(false)"
+            aria-label="Minimize Explore by Experience">&times;</button>
+
+        <div class="experience-heading">
+            <strong>What would you like to explore?</strong>
+            <span>Tap an experience, or use Explorer Search for a specific place.</span>
+        </div>
+
+        <div class="experience-grid">
+
+            <button type="button" class="experience-choice" onclick="selectExperience('iceberg', this)">
+                <span class="experience-icon iceberg-icon" aria-hidden="true">
+                    <svg viewBox="0 0 64 64" width="30" height="30" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M7 46 L19 30 L27 34 L36 13 L47 32 L57 46 Z" fill="#f4fbff" stroke="#4aa9d8"
+                            stroke-width="2" stroke-linejoin="round" />
+
+                        <path d="M7 46 L57 46 L51 55 L16 55 Z" fill="#8ed8f8" />
+
+                        <path d="M19 30 L27 34 L36 13 L34 46 L7 46 Z" fill="#d8f3ff" />
+
+                        <path d="M4 47 C14 44, 21 50, 31 47
+               C41 44, 49 50, 60 47" fill="none" stroke="#168ac0" stroke-width="2.5" stroke-linecap="round" />
+                    </svg>
+                </span>
+                <span class="experience-text"><strong>Icebergs</strong><small>Tap to explore</small></span>
+            </button>
+
+            <button type="button" class="experience-choice" onclick="selectExperience('hiking', this)">
+                <span class="experience-icon">🥾</span>
+                <span class="experience-text"><strong>Hiking</strong><small>Tap to explore</small></span>
+            </button>
+
+            <button type="button" class="experience-choice" onclick="selectExperience('wildlife', this)">
+                <span class="experience-icon">🐋</span>
+                <span class="experience-text"><strong>Wildlife</strong><small>Tap to explore</small></span>
+            </button>
+
+            <button type="button" class="experience-choice lighthouse-choice"
+                onclick="selectExperience('lighthouse', this)" aria-label="Explore lighthouse experiences">
+                <span class="experience-icon lighthouse-icon" aria-hidden="true">
+                    <svg viewBox="0 0 64 64" width="30" height="30" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Light beams -->
+                        <path d="M20 18 L5 11" fill="none" stroke="#f4b942" stroke-width="3" stroke-linecap="round" />
+
+                        <path d="M44 18 L59 11" fill="none" stroke="#f4b942" stroke-width="3" stroke-linecap="round" />
+
+                        <!-- Lantern room -->
+                        <rect x="23" y="13" width="18" height="10" rx="2" fill="#fff5c7" stroke="#234f70"
+                            stroke-width="2" />
+
+                        <!-- Lighthouse roof -->
+                        <path d="M20 13 L32 5 L44 13 Z" fill="#c94b40" stroke="#234f70" stroke-width="2"
+                            stroke-linejoin="round" />
+
+                        <!-- Lighthouse tower -->
+                        <path d="M25 23 L39 23 L44 53 L20 53 Z" fill="#f7fbfd" stroke="#234f70" stroke-width="2"
+                            stroke-linejoin="round" />
+
+                        <!-- Red stripe -->
+                        <path d="M23 36 L41 36 L42.5 44 L21.5 44 Z" fill="#d94b43" />
+
+                        <!-- Door -->
+                        <path d="M29 53 L29 46
+               C29 42 35 42 35 46
+               L35 53" fill="#234f70" />
+
+                        <!-- Ground -->
+                        <path d="M14 54 C23 50 41 50 50 54" fill="none" stroke="#41825b" stroke-width="3"
+                            stroke-linecap="round" />
+                    </svg>
+                </span>
+                <span class="experience-text"><strong>Lighthouses</strong><small>Tap to explore</small></span>
+            </button>
+
+            <button type="button" class="experience-choice" onclick="selectExperience('historic', this)">
+                <span class="experience-icon">🏛️</span>
+                <span class="experience-text"><strong>History</strong><small>Tap to explore</small></span>
+            </button>
+
+            <button type="button" class="experience-choice" onclick="selectExperience('museum', this)">
+                <span class="experience-icon museum-icon" aria-hidden="true">
+                    <svg viewBox="0 0 64 64" width="30" height="30" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Roof -->
+                        <path d="M8 22 L32 8 L56 22 Z" fill="#8064a2" stroke="#3f3a56" stroke-width="2"
+                            stroke-linejoin="round" />
+
+                        <!-- Roof trim -->
+                        <rect x="9" y="22" width="46" height="6" rx="1" fill="#eee7fa" stroke="#3f3a56"
+                            stroke-width="2" />
+
+                        <!-- Columns -->
+                        <rect x="14" y="28" width="7" height="21" fill="#ffffff" stroke="#3f3a56" stroke-width="2" />
+
+                        <rect x="28.5" y="28" width="7" height="21" fill="#ffffff" stroke="#3f3a56" stroke-width="2" />
+
+                        <rect x="43" y="28" width="7" height="21" fill="#ffffff" stroke="#3f3a56" stroke-width="2" />
+
+                        <!-- Base -->
+                        <rect x="8" y="49" width="48" height="6" rx="1" fill="#8064a2" stroke="#3f3a56"
+                            stroke-width="2" />
+
+                        <path d="M5 57 H59" fill="none" stroke="#3f3a56" stroke-width="3" stroke-linecap="round" />
+
+                        <!-- Door / exhibit entrance -->
+                        <rect x="29" y="38" width="6" height="11" fill="#d8c9eb" />
+                    </svg>
+                </span>
+                <span class="experience-text"><strong>Museums</strong><small>Tap to explore</small></span>
+            </button>
+
+            <button type="button" class="experience-choice" onclick="selectExperience('family', this)">
+                <span class="experience-icon">👨‍👩‍👧</span>
+                <span class="experience-text"><strong>Family</strong><small>Tap to explore</small></span>
+            </button>
+
+        </div>
+
+    </div>
+
+    <button id="experience-reopen" type="button" hidden onclick="setExperiencePanelOpen(true)">Explore by
+        Experience</button>
+
     <div id="search-box">
 
         <div style="margin-bottom: 5px;">
             <strong>Explorer Search</strong>
         </div>
 
-        <input type="text" id="communitySearch" placeholder="Search destinations, regions, categories, or interests..."
-            onkeydown="handleSearch(event)" oninput="showAutocomplete()">
+        <input type="text" id="communitySearch" placeholder="Try Signal Hill, Glovertown, or Brigus"
+            onkeydown="handleSearch(event)" oninput="handleSearchInput()">
 
         <div id="autocomplete-list"></div>
 
@@ -550,6 +935,14 @@
             );
         }
 
+        function resetInfoPanelScroll() {
+            const infoPanel = document.getElementById('info-panel');
+
+            if (infoPanel) {
+                infoPanel.scrollTop = 0;
+            }
+        }
+
         function showExplorerStory(destinationName) {
 
             const story = getExplorerStory(destinationName);
@@ -695,6 +1088,7 @@ ${story.highlights?.length ? `
 </button>
     `;
 
+            resetInfoPanelScroll();
             openInfoPanel();
         }
 
@@ -768,6 +1162,7 @@ ${story.highlights?.length ? `
 
     `;
 
+            resetInfoPanelScroll();
             openInfoPanel();
 
         }
@@ -842,6 +1237,7 @@ ${story.highlights?.length ? `
 ${renderExplorerStoryButton(hiddenGem.name)}
 `;
 
+            resetInfoPanelScroll();
             openInfoPanel();
         }
 
@@ -5322,6 +5718,41 @@ ${renderExplorerStoryButton(hiddenGem.name)}
                     word.slice(1).toLowerCase()
                 )
                 .join(' ');
+        }
+
+        function clearSelectedExperience() {
+            document.querySelectorAll('.experience-choice').forEach(button =>
+                button.classList.remove('selected')
+            );
+        }
+
+        function handleSearchInput() {
+            clearSelectedExperience();
+            showAutocomplete();
+        }
+
+        function setExperiencePanelOpen(isOpen) {
+            const panel = document.getElementById('experience-panel');
+            const reopenButton = document.getElementById('experience-reopen');
+
+            panel.classList.toggle('is-collapsed', !isOpen);
+            reopenButton.hidden = isOpen;
+        }
+
+        function selectExperience(interest, selectedButton) {
+            const searchInput = document.getElementById('communitySearch');
+
+            clearSelectedExperience();
+
+            if (selectedButton) {
+                selectedButton.classList.add('selected');
+            }
+
+            pendingMatchedInterest = null;
+            searchInput.value = interest;
+            showAutocomplete();
+            setExperiencePanelOpen(false);
+            searchInput.focus();
         }
 
         function showAutocomplete() {
