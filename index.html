@@ -362,7 +362,7 @@
         #experience-reopen {
             position: absolute;
             top: 88px;
-            left:80px;
+            left: 80px;
             z-index: 1000;
             padding: 10px 14px;
             border: 1px solid #9dbed8;
@@ -5777,7 +5777,17 @@ ${renderExplorerStoryButton(hiddenGem.name)}
                 .filter(item =>
                     matchesSearch(item, searchValue)
                 )
-                .slice(0, 25);
+                .sort((a, b) =>
+                    a.name.localeCompare(
+                        b.name,
+                        "en-CA",
+                        {
+                            sensitivity: "base",
+                            numeric: true
+                        }
+                    )
+                )
+                .slice(0, 15);
 
             matches.forEach(item => {
                 const div = document.createElement('div');
