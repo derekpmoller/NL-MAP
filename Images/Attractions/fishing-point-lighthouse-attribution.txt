@@ -1,0 +1,28 @@
+Image: Lighthouse St. Anthony, Newfoundland (26493263067).jpg
+
+Description:
+Fox Point (Fishing Point) Lighthouse in St. Anthony,
+Newfoundland and Labrador, Canada.
+
+Creator: Michel Rathwell
+Creator source profile:
+https://www.flickr.com/photos/93922433@N02/
+
+Source: Wikimedia Commons
+Source URL:
+https://commons.wikimedia.org/wiki/File:Lighthouse_St._Anthony,_Newfoundland_(26493263067).jpg
+
+Original Flickr source:
+https://flickr.com/photos/93922433@N02/26493263067
+
+License: CC BY 2.0
+License URL:
+https://creativecommons.org/licenses/by/2.0/
+
+Created: 7 July 2006 at 12:56
+
+Modifications:
+Cropped to a 16:9 aspect ratio, resized to 1200 x 675 pixels,
+and converted from JPEG to WebP for use in NL Explorer.
+
+The adapted image is distributed under the CC BY 2.0 license.

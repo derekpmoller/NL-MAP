@@ -1,0 +1,27 @@
+Image: Icebergs.jpg
+
+Description:
+Icebergs photographed near St. Anthony,
+Newfoundland and Labrador, Canada.
+
+Creator: Gérald Tapp
+Creator profile:
+https://commons.wikimedia.org/wiki/User:Gtapp
+
+Source: Wikimedia Commons
+Source URL:
+https://commons.wikimedia.org/wiki/File:Icebergs.jpg
+
+License: CC BY-SA 3.0 Unported
+License URL:
+https://creativecommons.org/licenses/by-sa/3.0/
+
+Created: 14 August 2011
+Uploaded: 15 August 2011
+Original source: Own work
+
+Modifications:
+Cropped to a 16:9 aspect ratio, resized to 1200 x 675 pixels,
+and converted from JPEG to WebP for use in NL Explorer.
+
+The adapted image is distributed under the CC BY-SA 3.0 license.
