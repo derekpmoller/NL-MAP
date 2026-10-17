@@ -293,6 +293,67 @@
             background: #f7f9fb;
         }
 
+        /* Video selector with one shared YouTube player */
+        .video-selector {
+            margin-top: 12px;
+        }
+
+        .video-player-wrap {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%;
+            overflow: hidden;
+            border-radius: 8px;
+            background: #000000;
+        }
+
+        .video-player-wrap iframe {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        .video-options {
+            display: grid;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .video-choice {
+            width: 100%;
+            padding: 9px 10px;
+            border: 1px solid #bfd3e4;
+            border-radius: 6px;
+            background: #ffffff;
+            color: #174f83;
+            font-family: Arial, sans-serif;
+            font-size: 13px;
+            font-weight: bold;
+            text-align: left;
+            cursor: pointer;
+        }
+
+        .video-choice:hover {
+            background: #eef6fc;
+            border-color: #6f9fc8;
+        }
+
+        .video-choice.selected {
+            border-color: #1f6fb2;
+            background: #dceefe;
+            box-shadow: 0 0 0 2px rgba(31, 111, 178, 0.12);
+        }
+
+        .video-youtube-link {
+            display: inline-block;
+            margin-top: 10px;
+            color: #174f83;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
         .experience-video p {
             margin: 0 0 7px 0;
         }
@@ -585,6 +646,7 @@
             background: #eef3f6;
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.16);
         }
+
         .attraction-detail-image img {
             display: block;
             width: 100%;
@@ -592,6 +654,7 @@
             aspect-ratio: 16 / 9;
             object-fit: cover;
         }
+
         .attraction-detail-credit {
             padding: 6px 8px;
             background: #f5f7f9;
@@ -600,10 +663,12 @@
             font-size: 10px;
             line-height: 1.3;
         }
+
         .attraction-detail-credit a {
             color: #174f83;
             text-decoration: underline;
         }
+
         /* Selected experience image card */
         .experience-image-card {
             position: absolute;
@@ -906,6 +971,23 @@
                 creatorUrl: "https://commons.wikimedia.org/wiki/User:WikiPedant",
                 license: "CC BY-SA 4.0",
                 licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0/"
+            },
+
+            "Fishing Point Lighthouse": {
+                image: "Images/Attractions/fishing-point-lighthouse.webp",
+                alt: "Fishing Point Lighthouse overlooking the coast near St. Anthony",
+                creator: "Michel Rathwell",
+                creatorUrl: "https://commons.wikimedia.org/wiki/File:Lighthouse_St._Anthony,_Newfoundland_(26493263067).jpg",
+                license: "CC BY 2.0",
+                licenseUrl: "https://creativecommons.org/licenses/by/2.0/"
+            },
+            "St. Anthony Whale Watching": {
+                image: "Images/Attractions/st-anthony-whale-watching.webp",
+                alt: "Large icebergs floating near St. Anthony, Newfoundland and Labrador",
+                creator: "Gérald Tapp",
+                creatorUrl: "https://commons.wikimedia.org/wiki/User:Gtapp",
+                license: "CC BY-SA 3.0",
+                licenseUrl: "https://creativecommons.org/licenses/by-sa/3.0/"
             }
         };
 
@@ -1105,6 +1187,128 @@
             }
         }
 
+        function getYouTubeVideoId(url) {
+            if (!url) {
+                return "";
+            }
+
+            try {
+                const videoUrl = new URL(url);
+
+                if (videoUrl.hostname === "youtu.be") {
+                    return videoUrl.pathname.replace("/", "");
+                }
+
+                if (
+                    videoUrl.hostname.includes("youtube.com") &&
+                    videoUrl.pathname === "/watch"
+                ) {
+                    return videoUrl.searchParams.get("v") || "";
+                }
+
+                if (
+                    videoUrl.hostname.includes("youtube.com") &&
+                    videoUrl.pathname.startsWith("/embed/")
+                ) {
+                    return videoUrl.pathname.split("/embed/")[1];
+                }
+            }
+            catch (error) {
+                console.warn("Invalid YouTube URL:", url);
+            }
+
+            return "";
+        }
+
+        function renderStoryVideoSelector(videos) {
+            const validVideos = (videos || [])
+                .filter(video => video.url)
+                .map(video => ({
+                    ...video,
+                    videoId: getYouTubeVideoId(video.url)
+                }))
+                .filter(video => video.videoId);
+
+            if (!validVideos.length) {
+                return "";
+            }
+
+            const firstVideo = validVideos[0];
+
+            return `
+        <hr>
+        <h3>Travel Experience Videos</h3>
+
+        <div class="video-selector">
+            <div class="video-player-wrap">
+                <iframe
+                    id="story-video-player"
+                    src="https://www.youtube-nocookie.com/embed/${firstVideo.videoId}"
+                    title="${firstVideo.title}"
+                    loading="lazy"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen>
+                </iframe>
+            </div>
+
+            <div class="video-options">
+                ${validVideos.map((video, index) => `
+                    <button
+                        type="button"
+                        class="video-choice${index === 0 ? " selected" : ""}"
+                        data-video-id="${video.videoId}"
+                        data-video-url="${video.url}"
+                        data-video-title="${video.title}"
+                        onclick="selectStoryVideo(this)"
+                    >
+                        ${video.title}
+                    </button>
+                `).join("")}
+            </div>
+
+            <a
+                id="story-video-youtube-link"
+                class="video-youtube-link"
+                href="${firstVideo.url}"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                Watch selected video on YouTube
+            </a>
+        </div>
+    `;
+        }
+
+        function selectStoryVideo(button) {
+            const player =
+                document.getElementById("story-video-player");
+
+            const youtubeLink =
+                document.getElementById("story-video-youtube-link");
+
+            if (!player || !youtubeLink) {
+                return;
+            }
+
+            const videoId = button.dataset.videoId;
+            const videoUrl = button.dataset.videoUrl;
+            const videoTitle = button.dataset.videoTitle;
+
+            player.src =
+                `https://www.youtube-nocookie.com/embed/${videoId}`;
+
+            player.title = videoTitle;
+            youtubeLink.href = videoUrl;
+
+            document
+                .querySelectorAll(".video-choice")
+                .forEach(videoButton => {
+                    videoButton.classList.remove("selected");
+                });
+
+            button.classList.add("selected");
+        }
+
         function showExplorerStory(destinationName) {
 
             const story = getExplorerStory(destinationName);
@@ -1209,39 +1413,7 @@ ${story.highlights?.length ? `
             ${story.wouldGoAgain ? "Yes" : "No"}
         </p>
 
-        ${story.videos?.some(video => video.url) ? `
-    <hr>
-
-    <h3>Travel Experience Video</h3>
-
-    ${story.videos
-                        .filter(video => video.url)
-                        .map(video => `
-            <div class="experience-video">
-
-                <p>
-                    <strong>${video.title}</strong>
-                </p>
-
-                ${video.experienceType ? `
-                    <p class="experience-type">
-                        ${video.experienceType}
-                    </p>
-                ` : ""}
-
-                <a
-                    class="video-link"
-                    href="${video.url}"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    Watch Video on YouTube
-                </a>
-
-            </div>
-        `)
-                        .join("")}
-` : ""}
+        ${renderStoryVideoSelector(story.videos)}
 
         <button
     onclick="returnToDestination('${destinationName}')"
@@ -1377,10 +1549,11 @@ ${story.highlights?.length ? `
             if (!hiddenGem) return;
 
             document.getElementById('info-panel').innerHTML = `
+    <h2>${hiddenGem.name}</h2>
 
-        <h2>${hiddenGem.name}</h2>
+    ${renderAttractionImage(hiddenGem.name)}
 
-        ${renderMatchedInterest(matchInfo)}
+    ${renderMatchedInterest(matchInfo)}
 
         <p>
             <strong>Category:</strong>

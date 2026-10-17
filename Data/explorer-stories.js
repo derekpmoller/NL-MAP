@@ -134,6 +134,11 @@ const explorerStories = [
 
         videos: [
             {
+                title: "Signal Hill Base to the Battery",
+                experienceType: "North Head Trail walking experience",
+                url: "https://youtu.be/JNKHH0eUhXQ"
+            },
+            {
                 title: "Downtown St. John's to Signal Hill",
                 url: "https://youtu.be/gwKLoDqCw44",
                 source: "YouTube",
