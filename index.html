@@ -669,6 +669,49 @@
             text-decoration: underline;
         }
 
+        /* Seasonal attraction photo gallery */
+        .attraction-season-label {
+            margin: 8px 0 10px;
+            color: #555555;
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            line-height: 1.35;
+        }
+
+        .attraction-gallery-thumbnails {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 7px;
+            padding: 0 0 8px;
+        }
+
+        .attraction-gallery-thumb {
+            padding: 0;
+            overflow: hidden;
+            border: 2px solid transparent;
+            border-radius: 7px;
+            background: #e7edf1;
+            cursor: pointer;
+        }
+
+        .attraction-gallery-thumb:hover,
+        .attraction-gallery-thumb:focus-visible {
+            border-color: #6f9fc8;
+            outline: none;
+        }
+
+        .attraction-gallery-thumb.selected {
+            border-color: #1f6fb2;
+            box-shadow: 0 0 0 2px rgba(31, 111, 178, 0.14);
+        }
+
+        .attraction-gallery-thumb img {
+            display: block;
+            width: 100%;
+            height: 62px;
+            object-fit: cover;
+        }
+
         /* Selected experience image card */
         .experience-image-card {
             position: absolute;
@@ -954,6 +997,7 @@
 
         let searchMarker;
         let pendingMatchedInterest = null;
+        let currentSeason = 'fall';
 
         const experienceImages = {
             iceberg: {
@@ -988,6 +1032,38 @@
                 creatorUrl: "https://commons.wikimedia.org/wiki/User:Gtapp",
                 license: "CC BY-SA 3.0",
                 licenseUrl: "https://creativecommons.org/licenses/by-sa/3.0/"
+            },
+            "Signal Hill": {
+                fallbackSeason: "fall",
+                creator: "NL Explorer",
+                seasonalImages: {
+                    fall: [
+                        {
+                            image: "Images/Attractions/SignalHill/fall/signal-hill-cabot-tower-fall-03.webp",
+                            alt: "Cabot Tower at Signal Hill with surrounding fall landscape"
+                        },
+                        {
+                            image: "Images/Attractions/SignalHill/fall/signal-hill-cabot-tower-fall-05.webp",
+                            alt: "Distant view of Cabot Tower above the fall landscape at Signal Hill"
+                        },
+                        {
+                            image: "Images/Attractions/SignalHill/fall/signal-hill-cabot-tower-fall-01.webp",
+                            alt: "Close view of the stone exterior of Cabot Tower at Signal Hill"
+                        },
+                        {
+                            image: "Images/Attractions/SignalHill/fall/signal-hill-cabot-tower-fall-04.webp",
+                            alt: "Front entrance and stone exterior of Cabot Tower during fall"
+                        },
+                        {
+                            image: "Images/Attractions/SignalHill/fall/signal-hill-cabot-tower-fall-06.webp",
+                            alt: "Side and rear view of the historic Cabot Tower building"
+                        },
+                        {
+                            image: "Images/Attractions/SignalHill/fall/signal-hill-cabot-tower-fall-02.webp",
+                            alt: "Cabot Tower under a clear blue sky at Signal Hill"
+                        }
+                    ]
+                }
             }
         };
 
@@ -1066,6 +1142,7 @@
                 icon = '❄️';
             }
 
+            currentSeason = season;
             const indicator =
                 document.getElementById('season-indicator');
 
@@ -1426,10 +1503,84 @@ ${story.highlights?.length ? `
             openInfoPanel();
         }
 
+        function formatSeasonName(season) {
+            return season.charAt(0).toUpperCase() + season.slice(1);
+        }
+        function selectAttractionGalleryImage(button) {
+            const gallery = button.closest('.attraction-detail-image');
+            if (!gallery) {
+                return;
+            }
+            const mainImage = gallery.querySelector('.attraction-gallery-main');
+            if (!mainImage) {
+                return;
+            }
+            mainImage.src = button.dataset.image;
+            mainImage.alt = button.dataset.alt;
+            gallery.querySelectorAll('.attraction-gallery-thumb').forEach(thumbnail => {
+                thumbnail.classList.remove('selected');
+                thumbnail.setAttribute('aria-pressed', 'false');
+            });
+            button.classList.add('selected');
+            button.setAttribute('aria-pressed', 'true');
+        }
         function renderAttractionImage(attractionName) {
             const imageInfo = attractionImages[attractionName];
             if (!imageInfo) {
                 return "";
+            }
+            if (imageInfo.seasonalImages) {
+                const availableSeason = imageInfo.seasonalImages[currentSeason]
+                    ? currentSeason
+                    : imageInfo.fallbackSeason;
+                const images = imageInfo.seasonalImages[availableSeason] || [];
+                if (!images.length) {
+                    return "";
+                }
+                const firstImage = images[0];
+                const usingFallback = availableSeason !== currentSeason;
+                const seasonMessage = usingFallback
+                    ? `${formatSeasonName(availableSeason)} photo collection shown. ${formatSeasonName(currentSeason)} photos will be added later.`
+                    : `${formatSeasonName(availableSeason)} photo collection`;
+                return `
+        <div class="attraction-detail-image">
+            <img
+                class="attraction-gallery-main"
+                src="${firstImage.image}"
+                alt="${firstImage.alt}"
+                width="1536"
+                height="2048"
+                fetchpriority="high"
+            >
+            <div class="attraction-season-label">
+                ${seasonMessage}
+            </div>
+            <div class="attraction-gallery-thumbnails" aria-label="Signal Hill photo gallery">
+                ${images.map((photo, index) => `
+                    <button
+                        type="button"
+                        class="attraction-gallery-thumb${index === 0 ? ' selected' : ''}"
+                        data-image="${photo.image}"
+                        data-alt="${photo.alt}"
+                        aria-label="View photo ${index + 1} of ${images.length}"
+                        aria-pressed="${index === 0 ? 'true' : 'false'}"
+                        onclick="selectAttractionGalleryImage(this)"
+                    >
+                        <img
+                            src="${photo.image}"
+                            alt=""
+                            width="1536"
+                            height="2048"
+                            loading="lazy"
+                        >
+                    </button>
+                `).join("")}
+            </div>
+            <div class="attraction-detail-credit">
+                Photo © ${imageInfo.creator}
+            </div>
+        </div>
+    `;
             }
             return `
         <div class="attraction-detail-image">
@@ -6360,8 +6511,8 @@ ${renderExplorerStoryButton(hiddenGem.name)}
         });
 
         window.addEventListener('load', function () {
-            restoreLastDestination();
             updateSeasonIndicator();
+            restoreLastDestination();
         });
 
     </script>
