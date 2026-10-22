@@ -712,6 +712,139 @@
             object-fit: cover;
         }
 
+        /* Full-screen attraction photo lightbox */
+        body.lightbox-open {
+            overflow: hidden;
+        }
+        .attraction-gallery-main {
+            cursor: zoom-in;
+        }
+        .attraction-gallery-enlarge {
+            display: block;
+            width: 100%;
+            padding: 7px 10px;
+            border: 0;
+            background: #e7f1f8;
+            color: #174f83;
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .attraction-gallery-enlarge:hover,
+        .attraction-gallery-enlarge:focus-visible {
+            background: #d7eafb;
+            outline: 3px solid rgba(31, 111, 178, 0.28);
+            outline-offset: -3px;
+        }
+        #photo-lightbox {
+            position: fixed;
+            inset: 0;
+            z-index: 5000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 58px 70px 70px;
+            box-sizing: border-box;
+            background: rgba(6, 14, 22, 0.94);
+            font-family: Arial, sans-serif;
+        }
+        #photo-lightbox[hidden] {
+            display: none;
+        }
+        .photo-lightbox-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 100%;
+            max-height: 100%;
+        }
+        #photo-lightbox-image {
+            display: block;
+            max-width: min(1200px, 100%);
+            max-height: calc(100vh - 155px);
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            border-radius: 6px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+        }
+        .photo-lightbox-caption {
+            width: 100%;
+            max-width: 900px;
+            margin-top: 12px;
+            color: #ffffff;
+            text-align: center;
+            line-height: 1.4;
+        }
+        #photo-lightbox-description {
+            display: block;
+            font-size: 14px;
+        }
+        #photo-lightbox-count {
+            display: block;
+            margin-top: 5px;
+            color: #cbd7df;
+            font-size: 12px;
+        }
+        .photo-lightbox-close,
+        .photo-lightbox-nav {
+            position: absolute;
+            border: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.14);
+            color: #ffffff;
+            cursor: pointer;
+        }
+        .photo-lightbox-close:hover,
+        .photo-lightbox-nav:hover,
+        .photo-lightbox-close:focus-visible,
+        .photo-lightbox-nav:focus-visible {
+            background: rgba(255, 255, 255, 0.28);
+            outline: 3px solid rgba(255, 255, 255, 0.6);
+            outline-offset: 2px;
+        }
+        .photo-lightbox-close {
+            top: 14px;
+            right: 18px;
+            width: 42px;
+            height: 42px;
+            font-size: 30px;
+            line-height: 38px;
+        }
+        .photo-lightbox-nav {
+            top: 50%;
+            width: 48px;
+            height: 48px;
+            transform: translateY(-50%);
+            font-size: 34px;
+            line-height: 42px;
+        }
+        .photo-lightbox-previous {
+            left: 14px;
+        }
+        .photo-lightbox-next {
+            right: 14px;
+        }
+        @media (max-width: 767px) {
+            #photo-lightbox {
+                padding: 62px 12px 88px;
+            }
+            #photo-lightbox-image {
+                max-height: calc(100vh - 190px);
+            }
+            .photo-lightbox-nav {
+                top: auto;
+                bottom: 18px;
+                transform: none;
+            }
+            .photo-lightbox-previous {
+                left: calc(50% - 65px);
+            }
+            .photo-lightbox-next {
+                right: calc(50% - 65px);
+            }
+        }
         /* Selected experience image card */
         .experience-image-card {
             position: absolute;
@@ -985,6 +1118,18 @@
         </div>
     </div>
 
+    <div id="photo-lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer" hidden>
+        <button type="button" class="photo-lightbox-close" aria-label="Close photo viewer" onclick="closePhotoLightbox()">&times;</button>
+        <button type="button" class="photo-lightbox-nav photo-lightbox-previous" aria-label="Previous photo" onclick="changePhotoLightboxImage(-1)">&#8249;</button>
+        <div class="photo-lightbox-content">
+            <img id="photo-lightbox-image" src="" alt="">
+            <div class="photo-lightbox-caption">
+                <span id="photo-lightbox-description"></span>
+                <span id="photo-lightbox-count"></span>
+            </div>
+        </div>
+        <button type="button" class="photo-lightbox-nav photo-lightbox-next" aria-label="Next photo" onclick="changePhotoLightboxImage(1)">&#8250;</button>
+    </div>
     <div id="map"></div>
 
 
@@ -998,6 +1143,9 @@
         let searchMarker;
         let pendingMatchedInterest = null;
         let currentSeason = 'fall';
+        let photoLightboxImages = [];
+        let photoLightboxIndex = 0;
+        let photoLightboxReturnFocus = null;
 
         const experienceImages = {
             iceberg: {
@@ -1040,27 +1188,27 @@
                     fall: [
                         {
                             image: "Images/Attractions/SignalHill/fall/signal-hill-cabot-tower-fall-03.webp",
-                            alt: "Cabot Tower at Signal Hill with surrounding fall landscape"
+                            alt: "Cabot Tower at Signal Hill with grass visible in the foreground"
                         },
                         {
                             image: "Images/Attractions/SignalHill/fall/signal-hill-cabot-tower-fall-05.webp",
-                            alt: "Distant view of Cabot Tower above the fall landscape at Signal Hill"
-                        },
-                        {
-                            image: "Images/Attractions/SignalHill/fall/signal-hill-cabot-tower-fall-01.webp",
                             alt: "Close view of the stone exterior of Cabot Tower at Signal Hill"
                         },
                         {
+                            image: "Images/Attractions/SignalHill/fall/signal-hill-cabot-tower-fall-01.webp",
+                            alt: "Side view of Cabot Tower with a Christmas star mounted on the stone exterior"
+                        },
+                        {
                             image: "Images/Attractions/SignalHill/fall/signal-hill-cabot-tower-fall-04.webp",
-                            alt: "Front entrance and stone exterior of Cabot Tower during fall"
+                            alt: "Corner view of Cabot Tower illuminated by fall sunlight"
                         },
                         {
                             image: "Images/Attractions/SignalHill/fall/signal-hill-cabot-tower-fall-06.webp",
-                            alt: "Side and rear view of the historic Cabot Tower building"
+                            alt: "Distant view of Cabot Tower above the fall landscape at Signal Hill"
                         },
                         {
                             image: "Images/Attractions/SignalHill/fall/signal-hill-cabot-tower-fall-02.webp",
-                            alt: "Cabot Tower under a clear blue sky at Signal Hill"
+                            alt: "Front entrance and stone exterior of Cabot Tower during fall"
                         }
                     ]
                 }
@@ -1517,12 +1665,81 @@ ${story.highlights?.length ? `
             }
             mainImage.src = button.dataset.image;
             mainImage.alt = button.dataset.alt;
+            mainImage.dataset.photoIndex = button.dataset.photoIndex;
             gallery.querySelectorAll('.attraction-gallery-thumb').forEach(thumbnail => {
                 thumbnail.classList.remove('selected');
                 thumbnail.setAttribute('aria-pressed', 'false');
             });
             button.classList.add('selected');
             button.setAttribute('aria-pressed', 'true');
+        }
+        function openPhotoLightbox(gallery) {
+            if (!gallery) {
+                return;
+            }
+            const mainImage = gallery.querySelector('.attraction-gallery-main');
+            const thumbnails = [...gallery.querySelectorAll('.attraction-gallery-thumb')];
+            if (!mainImage || !thumbnails.length) {
+                return;
+            }
+            photoLightboxImages = thumbnails.map(thumbnail => ({
+                image: thumbnail.dataset.image,
+                alt: thumbnail.dataset.alt
+            }));
+            photoLightboxIndex = Number(mainImage.dataset.photoIndex || 0);
+            photoLightboxReturnFocus = document.activeElement;
+            updatePhotoLightbox();
+            const lightbox = document.getElementById('photo-lightbox');
+            lightbox.hidden = false;
+            document.body.classList.add('lightbox-open');
+            lightbox.querySelector('.photo-lightbox-close').focus();
+        }
+        function updatePhotoLightbox() {
+            const photo = photoLightboxImages[photoLightboxIndex];
+            if (!photo) {
+                return;
+            }
+            const image = document.getElementById('photo-lightbox-image');
+            image.src = photo.image;
+            image.alt = photo.alt;
+            document.getElementById('photo-lightbox-description').textContent = photo.alt;
+            document.getElementById('photo-lightbox-count').textContent =
+                `${photoLightboxIndex + 1} of ${photoLightboxImages.length} · Photo © NL Explorer`;
+        }
+        function changePhotoLightboxImage(direction) {
+            if (!photoLightboxImages.length) {
+                return;
+            }
+            photoLightboxIndex =
+                (photoLightboxIndex + direction + photoLightboxImages.length) % photoLightboxImages.length;
+            updatePhotoLightbox();
+        }
+        function closePhotoLightbox() {
+            const lightbox = document.getElementById('photo-lightbox');
+            if (!lightbox || lightbox.hidden) {
+                return;
+            }
+            lightbox.hidden = true;
+            document.body.classList.remove('lightbox-open');
+            document.getElementById('photo-lightbox-image').src = '';
+            if (photoLightboxReturnFocus && document.contains(photoLightboxReturnFocus)) {
+                photoLightboxReturnFocus.focus();
+            }
+        }
+        function handlePhotoLightboxKeydown(event) {
+            const lightbox = document.getElementById('photo-lightbox');
+            if (!lightbox || lightbox.hidden) {
+                return;
+            }
+            if (event.key === 'Escape') {
+                closePhotoLightbox();
+            }
+            else if (event.key === 'ArrowLeft') {
+                changePhotoLightboxImage(-1);
+            }
+            else if (event.key === 'ArrowRight') {
+                changePhotoLightboxImage(1);
+            }
         }
         function renderAttractionImage(attractionName) {
             const imageInfo = attractionImages[attractionName];
@@ -1550,8 +1767,17 @@ ${story.highlights?.length ? `
                 alt="${firstImage.alt}"
                 width="1536"
                 height="2048"
+                data-photo-index="0"
                 fetchpriority="high"
+                role="button"
+                tabindex="0"
+                aria-label="Enlarge selected photo"
+                onclick="openPhotoLightbox(this.closest('.attraction-detail-image'))"
+                onkeydown="if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); openPhotoLightbox(this.closest('.attraction-detail-image')); }"
             >
+            <button type="button" class="attraction-gallery-enlarge" onclick="openPhotoLightbox(this.closest('.attraction-detail-image'))">
+                🔍 Click to enlarge
+            </button>
             <div class="attraction-season-label">
                 ${seasonMessage}
             </div>
@@ -1562,6 +1788,7 @@ ${story.highlights?.length ? `
                         class="attraction-gallery-thumb${index === 0 ? ' selected' : ''}"
                         data-image="${photo.image}"
                         data-alt="${photo.alt}"
+                        data-photo-index="${index}"
                         aria-label="View photo ${index + 1} of ${images.length}"
                         aria-pressed="${index === 0 ? 'true' : 'false'}"
                         onclick="selectAttractionGalleryImage(this)"
@@ -6506,6 +6733,12 @@ ${renderExplorerStoryButton(hiddenGem.name)}
 
         }
 
+        document.addEventListener('keydown', handlePhotoLightboxKeydown);
+        document.getElementById('photo-lightbox').addEventListener('click', function (event) {
+            if (event.target === this) {
+                closePhotoLightbox();
+            }
+        });
         regions.forEach(region => {
             loadRegion(region);
         });
