@@ -716,9 +716,11 @@
         body.lightbox-open {
             overflow: hidden;
         }
+
         .attraction-gallery-main {
             cursor: zoom-in;
         }
+
         .attraction-gallery-enlarge {
             display: block;
             width: 100%;
@@ -731,12 +733,14 @@
             font-weight: bold;
             cursor: pointer;
         }
+
         .attraction-gallery-enlarge:hover,
         .attraction-gallery-enlarge:focus-visible {
             background: #d7eafb;
             outline: 3px solid rgba(31, 111, 178, 0.28);
             outline-offset: -3px;
         }
+
         #photo-lightbox {
             position: fixed;
             inset: 0;
@@ -749,9 +753,11 @@
             background: rgba(6, 14, 22, 0.94);
             font-family: Arial, sans-serif;
         }
+
         #photo-lightbox[hidden] {
             display: none;
         }
+
         .photo-lightbox-content {
             display: flex;
             flex-direction: column;
@@ -759,6 +765,7 @@
             max-width: 100%;
             max-height: 100%;
         }
+
         #photo-lightbox-image {
             display: block;
             max-width: min(1200px, 100%);
@@ -769,6 +776,7 @@
             border-radius: 6px;
             box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
         }
+
         .photo-lightbox-caption {
             width: 100%;
             max-width: 900px;
@@ -777,16 +785,19 @@
             text-align: center;
             line-height: 1.4;
         }
+
         #photo-lightbox-description {
             display: block;
             font-size: 14px;
         }
+
         #photo-lightbox-count {
             display: block;
             margin-top: 5px;
             color: #cbd7df;
             font-size: 12px;
         }
+
         .photo-lightbox-close,
         .photo-lightbox-nav {
             position: absolute;
@@ -796,6 +807,7 @@
             color: #ffffff;
             cursor: pointer;
         }
+
         .photo-lightbox-close:hover,
         .photo-lightbox-nav:hover,
         .photo-lightbox-close:focus-visible,
@@ -804,6 +816,7 @@
             outline: 3px solid rgba(255, 255, 255, 0.6);
             outline-offset: 2px;
         }
+
         .photo-lightbox-close {
             top: 14px;
             right: 18px;
@@ -812,6 +825,7 @@
             font-size: 30px;
             line-height: 38px;
         }
+
         .photo-lightbox-nav {
             top: 50%;
             width: 48px;
@@ -820,31 +834,39 @@
             font-size: 34px;
             line-height: 42px;
         }
+
         .photo-lightbox-previous {
             left: 14px;
         }
+
         .photo-lightbox-next {
             right: 14px;
         }
+
         @media (max-width: 767px) {
             #photo-lightbox {
                 padding: 62px 12px 88px;
             }
+
             #photo-lightbox-image {
                 max-height: calc(100vh - 190px);
             }
+
             .photo-lightbox-nav {
                 top: auto;
                 bottom: 18px;
                 transform: none;
             }
+
             .photo-lightbox-previous {
                 left: calc(50% - 65px);
             }
+
             .photo-lightbox-next {
                 right: calc(50% - 65px);
             }
         }
+
         /* Selected experience image card */
         .experience-image-card {
             position: absolute;
@@ -1119,8 +1141,10 @@
     </div>
 
     <div id="photo-lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer" hidden>
-        <button type="button" class="photo-lightbox-close" aria-label="Close photo viewer" onclick="closePhotoLightbox()">&times;</button>
-        <button type="button" class="photo-lightbox-nav photo-lightbox-previous" aria-label="Previous photo" onclick="changePhotoLightboxImage(-1)">&#8249;</button>
+        <button type="button" class="photo-lightbox-close" aria-label="Close photo viewer"
+            onclick="closePhotoLightbox()">&times;</button>
+        <button type="button" class="photo-lightbox-nav photo-lightbox-previous" aria-label="Previous photo"
+            onclick="changePhotoLightboxImage(-1)">&#8249;</button>
         <div class="photo-lightbox-content">
             <img id="photo-lightbox-image" src="" alt="">
             <div class="photo-lightbox-caption">
@@ -1128,7 +1152,8 @@
                 <span id="photo-lightbox-count"></span>
             </div>
         </div>
-        <button type="button" class="photo-lightbox-nav photo-lightbox-next" aria-label="Next photo" onclick="changePhotoLightboxImage(1)">&#8250;</button>
+        <button type="button" class="photo-lightbox-nav photo-lightbox-next" aria-label="Next photo"
+            onclick="changePhotoLightboxImage(1)">&#8250;</button>
     </div>
     <div id="map"></div>
 
@@ -1209,6 +1234,41 @@
                         {
                             image: "Images/Attractions/SignalHill/fall/signal-hill-cabot-tower-fall-02.webp",
                             alt: "Front entrance and stone exterior of Cabot Tower during fall"
+                        },
+                        {
+                            image: "Images/Attractions/SignalHill/fall/signal-hill-cannon-cabot-tower-fall-01.webp",
+                            alt: "Historic cannon with Cabot Tower visible across the fall landscape",
+                            lightboxOnly: true
+                        },
+                        {
+                            image: "Images/Attractions/SignalHill/fall/signal-hill-cannons-fall-01.webp",
+                            alt: "Historic cannons at Signal Hill illuminated by fall sunlight",
+                            lightboxOnly: true
+                        },
+                        {
+                            image: "Images/Attractions/SignalHill/fall/signal-hill-cannons-harbour-view-fall-01.webp",
+                            alt: "Historic cannons overlooking St. John's Harbour in the fall sunlight",
+                            lightboxOnly: true
+                        },
+                        {
+                            image: "Images/Attractions/SignalHill/fall/signal-hill-st-johns-harbour-view-fall-01.webp",
+                            alt: "Wide fall view of St. John's Harbour beneath a cloud-filled sky",
+                            lightboxOnly: true
+                        },
+                        {
+                            image: "Images/Attractions/SignalHill/fall/signal-hill-st-johns-harbour-view-fall-02.webp",
+                            alt: "St. John's Harbour and surrounding landscape beneath a warm evening sky",
+                            lightboxOnly: true
+                        },
+                        {
+                            image: "Images/Attractions/SignalHill/fall/signal-hill-st-johns-harbour-view-fall-03.webp",
+                            alt: "Closer fall view across St. John's Harbour in the evening light",
+                            lightboxOnly: true
+                        },
+                        {
+                            image: "Images/Attractions/SignalHill/fall/signal-hill-st-johns-harbour-view-fall-04.webp",
+                            alt: "Panoramic fall view of St. John's Harbour beneath a dramatic evening sky",
+                            lightboxOnly: true
                         }
                     ]
                 }
@@ -1678,14 +1738,20 @@ ${story.highlights?.length ? `
                 return;
             }
             const mainImage = gallery.querySelector('.attraction-gallery-main');
-            const thumbnails = [...gallery.querySelectorAll('.attraction-gallery-thumb')];
-            if (!mainImage || !thumbnails.length) {
+            if (!mainImage) {
                 return;
             }
-            photoLightboxImages = thumbnails.map(thumbnail => ({
-                image: thumbnail.dataset.image,
-                alt: thumbnail.dataset.alt
-            }));
+            try {
+                photoLightboxImages = JSON.parse(
+                    decodeURIComponent(gallery.dataset.lightboxImages || '')
+                );
+            }
+            catch (error) {
+                photoLightboxImages = [];
+            }
+            if (!photoLightboxImages.length) {
+                return;
+            }
             photoLightboxIndex = Number(mainImage.dataset.photoIndex || 0);
             photoLightboxReturnFocus = document.activeElement;
             updatePhotoLightbox();
@@ -1754,13 +1820,17 @@ ${story.highlights?.length ? `
                 if (!images.length) {
                     return "";
                 }
-                const firstImage = images[0];
+                const visibleImages = images.filter(photo => !photo.lightboxOnly);
+                const firstImage = visibleImages[0] || images[0];
                 const usingFallback = availableSeason !== currentSeason;
                 const seasonMessage = usingFallback
                     ? `${formatSeasonName(availableSeason)} photo collection shown. ${formatSeasonName(currentSeason)} photos will be added later.`
                     : `${formatSeasonName(availableSeason)} photo collection`;
                 return `
-        <div class="attraction-detail-image">
+        <div
+            class="attraction-detail-image"
+            data-lightbox-images="${encodeURIComponent(JSON.stringify(images))}"
+        >
             <img
                 class="attraction-gallery-main"
                 src="${firstImage.image}"
@@ -1782,15 +1852,17 @@ ${story.highlights?.length ? `
                 ${seasonMessage}
             </div>
             <div class="attraction-gallery-thumbnails" aria-label="Signal Hill photo gallery">
-                ${images.map((photo, index) => `
+                ${visibleImages.map((photo, visibleIndex) => {
+                    const lightboxIndex = images.indexOf(photo);
+                    return `
                     <button
                         type="button"
-                        class="attraction-gallery-thumb${index === 0 ? ' selected' : ''}"
+                        class="attraction-gallery-thumb${visibleIndex === 0 ? ' selected' : ''}"
                         data-image="${photo.image}"
                         data-alt="${photo.alt}"
-                        data-photo-index="${index}"
-                        aria-label="View photo ${index + 1} of ${images.length}"
-                        aria-pressed="${index === 0 ? 'true' : 'false'}"
+                        data-photo-index="${lightboxIndex}"
+                        aria-label="View photo ${visibleIndex + 1} of ${visibleImages.length}"
+                        aria-pressed="${visibleIndex === 0 ? 'true' : 'false'}"
                         onclick="selectAttractionGalleryImage(this)"
                     >
                         <img
@@ -1801,7 +1873,8 @@ ${story.highlights?.length ? `
                             loading="lazy"
                         >
                     </button>
-                `).join("")}
+                `;
+                }).join("")}
             </div>
             <div class="attraction-detail-credit">
                 Photo © ${imageInfo.creator}
