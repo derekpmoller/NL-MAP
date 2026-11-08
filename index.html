@@ -1530,7 +1530,7 @@
             return "";
         }
 
-        function renderStoryVideoSelector(videos) {
+        function renderStoryVideoSelector(videos, heading = "Travel Experience Videos") {
             const validVideos = (videos || [])
                 .filter(video => video.url)
                 .map(video => ({
@@ -1547,7 +1547,7 @@
 
             return `
         <hr>
-        <h3>Travel Experience Videos</h3>
+        <h3>${heading}</h3>
 
         <div class="video-selector">
             <div class="video-player-wrap">
@@ -6027,6 +6027,31 @@ ${renderExplorerStoryButton(hiddenGem.name)}
 
         ];
 
+        const communityDetails = {
+            "St. John's": {
+                description: "Newfoundland and Labrador's capital city, known for colourful neighbourhoods, a historic harbour, parks, riverside paths, walking trails, cycling routes and cultural attractions.",
+                highlights: [
+                    "Signal Hill National Historic Site",
+                    "Bowring Park",
+                    "Quidi Vidi Village",
+                    "Waterford River trails",
+                    "George Street",
+                    "The Rooms",
+                    "Railway Coastal Museum",
+                    "East Coast Trail access"
+                ],
+                activities: [
+                    "Walking tours",
+                    "Cycling",
+                    "Hiking",
+                    "Museums and historic sites",
+                    "Photography",
+                    "Seasonal trail experiences"
+                ],
+                videoHeading: "Fall Trails in St. John's"
+            }
+        };
+
         const destinationDetails = [
             ...attractionDetails,
             ...hiddenGemDetails
@@ -6512,39 +6537,37 @@ ${renderExplorerStoryButton(hiddenGem.name)}
                 return;
             }
 
+            const communityInfo = communityDetails[result.name];
+            const communityStory = getExplorerStory(result.name);
+
             document.getElementById('info-panel').innerHTML = `
     <h2>${result.name}</h2>
 
-    <p>
-        <strong>Community</strong><br>
-        ${region.name}
-    </p>
+    <p><strong>Community</strong><br>${region.name}</p>
 
-    <hr>
+    ${communityInfo ? `
+        <p>${communityInfo.description}</p>
+        <p><strong>Community Highlights</strong></p>
+        <ul>${communityInfo.highlights.map(item => `<li>${item}</li>`).join('')}</ul>
+        <p><strong>Things to Experience</strong></p>
+        <ul>${communityInfo.activities.map(item => `<li>${item}</li>`).join('')}</ul>
+    ` : `
+        <hr>
+        <h3>${region.name}</h3>
+        <p>${region.description || ''}</p>
+        <p><strong>Major Communities</strong><br>${region.majorCommunities || ''}</p>
+        <p><strong>Key Attractions</strong><br>${region.attractions || ''}</p>
+        <p><strong>Hidden Gems</strong><br>${region.hiddenGems || ''}</p>
+    `}
 
-    <h3>${region.name}</h3>
+    ${communityStory?.videos?.length ? renderStoryVideoSelector(
+        communityStory.videos,
+        communityInfo?.videoHeading || communityStory.videoHeading || "Community Videos"
+    ) : ''}
 
-    <p>
-        ${region.description || ''}
-    </p>
-
-    <p>
-        <strong>Major Communities</strong><br>
-        ${region.majorCommunities || ''}
-    </p>
-
-    <p>
-        <strong>Key Attractions</strong><br>
-        ${region.attractions || ''}
-    </p>
-
-    <p>
-        <strong>Hidden Gems</strong><br>
-        ${region.hiddenGems || ''}
-    </p>
-
-    ${renderExplorerStoryButton(result.name)}
+    ${result.name !== "St. John's" ? renderExplorerStoryButton(result.name) : ''}
 `;
+
 
             openInfoPanel();
 
